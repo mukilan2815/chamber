@@ -74,7 +74,12 @@ const Membershipform = () => {
         </div>
         <div className="flex space-x-2">
           <h6 className="font-bold">3. Year of Establishment :</h6>
-          <input type="number" className="border px-2" placeholder="Year" />
+          <input
+            type="number"
+            className="border px-2"
+            min={1900}
+            placeholder="Year"
+          />
         </div>
       </div>
     </div>
