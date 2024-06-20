@@ -14,6 +14,8 @@ const Membershipform = () => {
     "Associations",
   ];
 
+  const currentYear = new Date().getFullYear();
+
   return (
     <div>
       <Navbar />
@@ -72,14 +74,40 @@ const Membershipform = () => {
             </div>
           ))}
         </div>
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 mt-5">
           <h6 className="font-bold">3. Year of Establishment :</h6>
           <input
             type="number"
             className="border px-2"
             min={1900}
+            max={currentYear}
             placeholder="Year"
           />
+        </div>
+        <div className="flex mt-5">
+          <h6 className="font-bold">4. Business Activity:</h6>
+          <textarea className="border ml-24 border-black "></textarea>
+        </div>
+        <div className="flex mt-5">
+          <h6 className="font-bold">5. Registred Office Address:</h6>
+          <textarea className="border ml-10 border-black "></textarea>
+        </div>
+        <div className=" space-x-64 my-10 ">
+          <div className="flex space-x-10 mb-10 ">
+            <h6>6. Address for Communication:</h6>
+            <div className="flex">
+              <h6>Office:</h6>
+              <textarea
+                name=""
+                id=""
+                className="border ml-10 border-black"
+              ></textarea>
+            </div>
+          </div>
+          <div className="flex">
+            <h6>Works/Factory :</h6>
+            <textarea name="" id="" className="border border-black"></textarea>
+          </div>
         </div>
       </div>
     </div>
