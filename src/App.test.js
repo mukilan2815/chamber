@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import Membershipform from "./Membershipform";
+import Membershipform from "./Pages/Client/Membershipform";
 
 describe("Membershipform", () => {
   test("renders Membershipform component without crashing", () => {
