@@ -118,42 +118,79 @@ const Membershipform = () => {
 
   return (
     <div>
-      <Navbar />
       <form onSubmit={handleSubmit}>
         <div className="flex-col w-[60%] ml-[20%] justify-center items-center">
           <img src={Header} alt="Header" className="w-fit" />
         </div>
         <div className="text-blue-800 font-medium w-[60%] ml-[20%]">
-          <div className="flex justify-end space-x-2">
-            <h5 className="flex justify-end">Date:</h5>
-            <input type="text" value={currentDate} readOnly />
-          </div>
-          <div className="flex font-semibold">
-            <h6>1. Name of Applicant :</h6>
-            <input
-              type="text"
-              name="applicantName"
-              value={formData.applicantName}
-              onChange={handleInputChange}
-              className="border rounded px-2"
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <div className="flex items-center mb-2">
-              <label
-                className="font-semibold flex-none"
-                style={{ minWidth: "8rem" }}
-              >
-                2. Constitution:
-              </label>
+          <div className="text-blue-800 font-medium w-[60%]">
+            <div className="flex justify-end items-center space-x-2 mb-4">
+              <h5 className="w-32 text-right">Date:</h5>
+              <input
+                type="text"
+                value={currentDate}
+                readOnly
+                className="border rounded px-2 flex-grow"
+              />
             </div>
-            {["Individual", ...labels].map((label, index) => (
-              <div className="flex items-center mb-2" key={label}>
-                <div className="flex-none" style={{ minWidth: "8rem" }}>
-                  <label className="font-semibold">{label}</label>
+
+            <div className="flex items-center mb-4">
+              <h6 className="w-64 text-right font-semibold">
+                1. Name of Applicant:
+              </h6>
+              <input
+                type="text"
+                name="applicantName"
+                value={formData.applicantName}
+                onChange={handleInputChange}
+                className="border rounded px-2 flex-grow"
+              />
+            </div>
+
+            <div className="flex flex-col mb-4">
+              <div className="flex items-center mb-2">
+                <label className="w-64 text-right font-semibold">
+                  2. Constitution:
+                </label>
+                <div className="flex space-x-4 items-center ml-2">
+                  <span className="ml-2 font-semibold">Individual</span>
+                  <input
+                    type="checkbox"
+                    name="individual"
+                    checked={formData.constitution.individual}
+                    onChange={handleConstitutionChange}
+                    className="form-checkbox"
+                  />
                 </div>
-                <div className="flex-none ml-2">
+              </div>
+              {formData.constitution.individual && (
+                <div className="ml-[8.5rem] mb-4">
+                  <label className="font-semibold mb-2 block">
+                    Describe the profession:
+                  </label>
+                  {[0, 1, 2].map((index) => (
+                    <div
+                      className="flex items-center space-x-3 mb-1"
+                      key={index}
+                    >
+                      <span>{index + 1}</span>
+                      <input
+                        type="text"
+                        value={formData.profession[index]}
+                        onChange={(e) =>
+                          handleProfessionChange(index, e.target.value)
+                        }
+                        className="border rounded border-black flex-grow"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {labels.map((label, index) => (
+                <div className="flex items-center mb-2" key={index}>
+                  <label className="w-64 text-right font-semibold">
+                    {label}:
+                  </label>
                   <input
                     type="checkbox"
                     name={label.toLowerCase().replace(/\s/g, "")}
@@ -163,144 +200,120 @@ const Membershipform = () => {
                       ]
                     }
                     onChange={handleConstitutionChange}
-                    className="form-checkbox"
+                    className="form-checkbox ml-2"
                   />
                 </div>
-              </div>
-            ))}
-            {formData.constitution.individual && (
-              <div className="flex flex-col items-start ml-8 mb-4">
-                <label className="font-semibold mb-2 block">
-                  Describe the profession:
-                </label>
-                {[0, 1, 2].map((index) => (
-                  <div className="flex items-center space-x-3 mb-1" key={index}>
-                    <span>{index + 1}</span>
-                    <input
-                      type="text"
-                      value={formData.profession[index]}
-                      onChange={(e) =>
-                        handleProfessionChange(index, e.target.value)
-                      }
-                      className="border rounded border-black"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+              ))}
+            </div>
 
-          <div className="flex space-x-2 mt-5">
-            <h6 className="font-bold">3. Year of Establishment :</h6>
-            <input
-              type="number"
-              name="establishmentYear"
-              value={formData.establishmentYear}
-              onChange={handleInputChange}
-              className="border px-2"
-              min={1900}
-              max={currentYear}
-              placeholder="Year"
-            />
-          </div>
-          <div className="flex flex-col space-y-5 mt-5">
-            <div className="flex items-center">
-              <h6 className="font-bold min-w-max w-64 text-right pr-4">
-                4. Business Activity:
+            <div className="flex items-center mb-4">
+              <h6 className="w-64 text-right font-bold">
+                3. Year of Establishment:
               </h6>
-              <textarea
-                name="businessActivity"
-                value={formData.businessActivity}
+              <input
+                type="number"
+                name="establishmentYear"
+                value={formData.establishmentYear}
                 onChange={handleInputChange}
-                className="border border-black w-64 h-20"
-              ></textarea>
+                className="border px-2 flex-grow"
+                min={1900}
+                max={currentYear}
+                placeholder="Year"
+              />
             </div>
-            <div className="flex items-center">
-              <h6 className="font-bold min-w-max w-64 text-right pr-4">
-                5. Registered Office Address:
-              </h6>
-              <textarea
-                name="registeredOfficeAddress"
-                value={formData.registeredOfficeAddress}
-                onChange={handleInputChange}
-                className="border border-black w-64 h-20"
-              ></textarea>
-            </div>
-            <div className="flex flex-col space-y-5">
+
+            <div className="flex flex-col space-y-5 mb-5">
               <div className="flex items-center">
-                <h6 className="font-bold min-w-max w-64 text-right pr-4">
-                  6. Address for Communication:
+                <h6 className="w-64 text-right pr-4 font-bold">
+                  4. Business Activity:
                 </h6>
-                <div className="flex flex-col space-y-5">
-                  <div className="flex items-center">
-                    <h6 className="min-w-max w-64 text-right pr-4">Office:</h6>
-                    <textarea
-                      name="officeAddress"
-                      value={formData.officeAddress}
-                      onChange={handleInputChange}
-                      className="border border-black w-64 h-20"
-                    ></textarea>
-                  </div>
-                  <div className="flex items-center">
-                    <h6 className="min-w-max w-64 text-right pr-4">
-                      Works/Factory:
-                    </h6>
-                    <textarea
-                      name="worksFactoryAddress"
-                      value={formData.worksFactoryAddress}
-                      onChange={handleInputChange}
-                      className="border border-black w-64 h-20"
-                    ></textarea>
-                  </div>
-                </div>
+                <textarea
+                  name="businessActivity"
+                  value={formData.businessActivity}
+                  onChange={handleInputChange}
+                  className="border border-black flex-grow h-20"
+                ></textarea>
+              </div>
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4 font-bold">
+                  5. Registered Office Address:
+                </h6>
+                <textarea
+                  name="registeredOfficeAddress"
+                  value={formData.registeredOfficeAddress}
+                  onChange={handleInputChange}
+                  className="border border-black flex-grow h-20"
+                ></textarea>
+              </div>
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4 font-bold">
+                  6. Address for Communication - Office:
+                </h6>
+                <textarea
+                  name="officeAddress"
+                  value={formData.officeAddress}
+                  onChange={handleInputChange}
+                  className="border border-black flex-grow h-20"
+                ></textarea>
+              </div>
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4 font-bold">
+                  Works/Factory:
+                </h6>
+                <textarea
+                  name="worksFactoryAddress"
+                  value={formData.worksFactoryAddress}
+                  onChange={handleInputChange}
+                  className="border border-black flex-grow h-20"
+                ></textarea>
               </div>
             </div>
-          </div>
 
-          <div className="flex flex-col space-y-5 font-bold">
-            <div>
-              <h6>7. Communication Details</h6>
-            </div>
-            <div className="flex flex-col space-y-4">
-              <div className="flex items-center">
-                <h6 className="w-40 text-right pr-4">Phone Landline:</h6>
-                <input
-                  type="text"
-                  name="phoneLandline"
-                  value={formData.phoneLandline}
-                  onChange={handleInputChange}
-                  className="border border-black w-40"
-                />
+            <div className="flex flex-col space-y-5 font-bold">
+              <div>
+                <h6>7. Communication Details</h6>
               </div>
-              <div className="flex items-center">
-                <h6 className="w-40 text-right pr-4">Phone Mobile:</h6>
-                <input
-                  type="text"
-                  name="phoneMobile"
-                  value={formData.phoneMobile}
-                  onChange={handleInputChange}
-                  className="border border-black w-40"
-                />
-              </div>
-              <div className="flex items-center">
-                <h6 className="w-40 text-right pr-4">Email ID:</h6>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="border border-black w-40"
-                />
-              </div>
-              <div className="flex items-center">
-                <h6 className="w-40 text-right pr-4">Website:</h6>
-                <input
-                  type="text"
-                  name="website"
-                  value={formData.website}
-                  onChange={handleInputChange}
-                  className="border border-black w-40"
-                />
+              <div className="flex flex-col space-y-4">
+                <div className="flex items-center">
+                  <h6 className="w-64 text-right pr-4">Phone Landline:</h6>
+                  <input
+                    type="text"
+                    name="phoneLandline"
+                    value={formData.phoneLandline}
+                    onChange={handleInputChange}
+                    className="border border-black flex-grow"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <h6 className="w-64 text-right pr-4">Phone Mobile:</h6>
+                  <input
+                    type="text"
+                    name="phoneMobile"
+                    value={formData.phoneMobile}
+                    onChange={handleInputChange}
+                    className="border border-black flex-grow"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <h6 className="w-64 text-right pr-4">Email ID:</h6>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="border border-black flex-grow"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <h6 className="w-64 text-right pr-4">Website:</h6>
+                  <input
+                    type="text"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleInputChange}
+                    className="border border-black flex-grow"
+                  />
+                </div>
               </div>
             </div>
           </div>
