@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Header from "../../Assets/Formheader.png";
 import Navbar from "../../Components/Navbar";
-
+import { useNavigate } from "react-router-dom";
 const Membershipform = () => {
+  const navigate = useNavigate();
   const currentDate = new Date().toLocaleDateString();
   const currentYear = new Date().getFullYear();
 
@@ -114,6 +115,7 @@ const Membershipform = () => {
       website: formData.website || "Not provided",
     };
     console.log("Form submitted:", formDataWithDefaults);
+    navigate("/membershipform2");
   };
 
   return (
