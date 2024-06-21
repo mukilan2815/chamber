@@ -124,7 +124,7 @@ const Membershipform = () => {
         </div>
         <div className="text-blue-800 font-medium w-[60%] ml-[20%]">
           <div className="text-blue-800 font-medium w-[60%]">
-            <div className="flex justify-end items-center space-x-2 mb-4">
+            <div className="flex justify-end space-x-2 mb-4">
               <h5 className="w-32 text-right">Date:</h5>
               <input
                 type="text"
@@ -318,7 +318,7 @@ const Membershipform = () => {
             </div>
           </div>
 
-          <div className="p-6 max-w-4xl mx-auto">
+          <div className="p-6 max-w-4xl">
             <h2 className="text-xl font-bold mb-4">8. Legal Information:</h2>
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
