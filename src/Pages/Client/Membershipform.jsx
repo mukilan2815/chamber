@@ -46,6 +46,11 @@ const Membershipform = () => {
     { name: "", designation: "", pan: "" },
     { name: "", designation: "", pan: "" },
   ]);
+  const [isYesChecked, setIsYesChecked] = useState(false);
+
+  const handleYesChange = () => {
+    setIsYesChecked(!isYesChecked);
+  };
 
   const labels = [
     "Proprietary Firm",
@@ -109,7 +114,6 @@ const Membershipform = () => {
       website: formData.website || "Not provided",
     };
     console.log("Form submitted:", formDataWithDefaults);
-    // Here you would send formDataWithDefaults to your database
   };
 
   return (
@@ -134,64 +138,58 @@ const Membershipform = () => {
               className="border rounded px-2"
             />
           </div>
-          <div className="flex flex-col justify-center">
-            <div className="flex items-start justify-between">
-              <div className="flex items-center mb-2">
-                <label className="font-semibold mr-2">2. Constitution</label>
-                <span className="mr-2">:</span>
-                <span className="font-semibold">Individual</span>
-                <input
-                  type="checkbox"
-                  name="individual"
-                  checked={formData.constitution.individual}
-                  onChange={handleConstitutionChange}
-                  className="ml-2"
-                />
-              </div>
-              <div className="mb-4 flex-col items-center">
-                <div className="flex mb-5">
-                  <input type="checkbox" className="mr-2 form-checkbox" />
-                  <label className="font-semibold mb-2 block">
-                    Describe the profession
-                  </label>
-                </div>
-                <div className="flex flex-col">
-                  {[0, 1, 2].map((index) => (
-                    <div
-                      className="flex items-center space-x-3 mb-1"
-                      key={index}
-                    >
-                      <span>{index + 1}</span>
-                      <input
-                        type="text"
-                        value={formData.profession[index]}
-                        onChange={(e) =>
-                          handleProfessionChange(index, e.target.value)
-                        }
-                        className="border rounded border-black"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
+
+          <div className="flex flex-col">
+            <div className="flex items-center mb-2">
+              <label
+                className="font-semibold flex-none"
+                style={{ minWidth: "8rem" }}
+              >
+                2. Constitution:
+              </label>
             </div>
-            {labels.map((label) => (
-              <div className="flex items-center space-x-3" key={label}>
-                <label className="font-semibold mb-2 block">{label}</label>
-                <input
-                  type="checkbox"
-                  name={label.toLowerCase().replace(/\s/g, "")}
-                  checked={
-                    formData.constitution[
-                      label.toLowerCase().replace(/\s/g, "")
-                    ]
-                  }
-                  onChange={handleConstitutionChange}
-                  className="form-checkbox"
-                />
+            {["Individual", ...labels].map((label, index) => (
+              <div className="flex items-center mb-2" key={label}>
+                <div className="flex-none" style={{ minWidth: "8rem" }}>
+                  <label className="font-semibold">{label}</label>
+                </div>
+                <div className="flex-none ml-2">
+                  <input
+                    type="checkbox"
+                    name={label.toLowerCase().replace(/\s/g, "")}
+                    checked={
+                      formData.constitution[
+                        label.toLowerCase().replace(/\s/g, "")
+                      ]
+                    }
+                    onChange={handleConstitutionChange}
+                    className="form-checkbox"
+                  />
+                </div>
               </div>
             ))}
+            {formData.constitution.individual && (
+              <div className="flex flex-col items-start ml-8 mb-4">
+                <label className="font-semibold mb-2 block">
+                  Describe the profession:
+                </label>
+                {[0, 1, 2].map((index) => (
+                  <div className="flex items-center space-x-3 mb-1" key={index}>
+                    <span>{index + 1}</span>
+                    <input
+                      type="text"
+                      value={formData.profession[index]}
+                      onChange={(e) =>
+                        handleProfessionChange(index, e.target.value)
+                      }
+                      className="border rounded border-black"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
+
           <div className="flex space-x-2 mt-5">
             <h6 className="font-bold">3. Year of Establishment :</h6>
             <input
@@ -205,94 +203,108 @@ const Membershipform = () => {
               placeholder="Year"
             />
           </div>
-          <div className="flex mt-5">
-            <h6 className="font-bold">4. Business Activity:</h6>
-            <textarea
-              name="businessActivity"
-              value={formData.businessActivity}
-              onChange={handleInputChange}
-              className="border ml-24 border-black"
-            ></textarea>
-          </div>
-          <div className="flex mt-5">
-            <h6 className="font-bold">5. Registered Office Address:</h6>
-            <textarea
-              name="registeredOfficeAddress"
-              value={formData.registeredOfficeAddress}
-              onChange={handleInputChange}
-              className="border ml-10 border-black"
-            ></textarea>
-          </div>
-          <div className="space-x-64 my-10 font-bold">
-            <div className="flex space-x-10 mb-10">
-              <h6>6. Address for Communication:</h6>
-              <div className="flex">
-                <h6>Office:</h6>
-                <textarea
-                  name="officeAddress"
-                  value={formData.officeAddress}
-                  onChange={handleInputChange}
-                  className="border ml-10 border-black"
-                ></textarea>
-              </div>
-            </div>
-            <div className="flex space-x-3">
-              <h6>Works/Factory :</h6>
+          <div className="flex flex-col space-y-5 mt-5">
+            <div className="flex items-center">
+              <h6 className="font-bold min-w-max w-64 text-right pr-4">
+                4. Business Activity:
+              </h6>
               <textarea
-                name="worksFactoryAddress"
-                value={formData.worksFactoryAddress}
+                name="businessActivity"
+                value={formData.businessActivity}
                 onChange={handleInputChange}
-                className="border border-black"
+                className="border border-black w-64 h-20"
               ></textarea>
             </div>
-          </div>
-          <div className="flex space-x-9 font-bold">
-            <div>
-              <h6>7. Communication Details </h6>
+            <div className="flex items-center">
+              <h6 className="font-bold min-w-max w-64 text-right pr-4">
+                5. Registered Office Address:
+              </h6>
+              <textarea
+                name="registeredOfficeAddress"
+                value={formData.registeredOfficeAddress}
+                onChange={handleInputChange}
+                className="border border-black w-64 h-20"
+              ></textarea>
             </div>
+            <div className="flex flex-col space-y-5">
+              <div className="flex items-center">
+                <h6 className="font-bold min-w-max w-64 text-right pr-4">
+                  6. Address for Communication:
+                </h6>
+                <div className="flex flex-col space-y-5">
+                  <div className="flex items-center">
+                    <h6 className="min-w-max w-64 text-right pr-4">Office:</h6>
+                    <textarea
+                      name="officeAddress"
+                      value={formData.officeAddress}
+                      onChange={handleInputChange}
+                      className="border border-black w-64 h-20"
+                    ></textarea>
+                  </div>
+                  <div className="flex items-center">
+                    <h6 className="min-w-max w-64 text-right pr-4">
+                      Works/Factory:
+                    </h6>
+                    <textarea
+                      name="worksFactoryAddress"
+                      value={formData.worksFactoryAddress}
+                      onChange={handleInputChange}
+                      className="border border-black w-64 h-20"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col space-y-5 font-bold">
             <div>
-              <div className="flex items-center space-x-4 space-y-4">
-                <h6>Phone Landline :</h6>
+              <h6>7. Communication Details</h6>
+            </div>
+            <div className="flex flex-col space-y-4">
+              <div className="flex items-center">
+                <h6 className="w-40 text-right pr-4">Phone Landline:</h6>
                 <input
                   type="text"
                   name="phoneLandline"
                   value={formData.phoneLandline}
                   onChange={handleInputChange}
-                  className="px-2 border border-black"
+                  className="border border-black w-40"
                 />
               </div>
-              <div className="flex items-center space-x-4 space-y-4">
-                <h6>Phone Mobile :</h6>
+              <div className="flex items-center">
+                <h6 className="w-40 text-right pr-4">Phone Mobile:</h6>
                 <input
                   type="text"
                   name="phoneMobile"
                   value={formData.phoneMobile}
                   onChange={handleInputChange}
-                  className="px-2 border border-black"
+                  className="border border-black w-40"
                 />
               </div>
-              <div className="flex items-center space-x-4 space-y-4">
-                <h6>Email ID : </h6>
+              <div className="flex items-center">
+                <h6 className="w-40 text-right pr-4">Email ID:</h6>
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="px-2 border border-black"
+                  className="border border-black w-40"
                 />
               </div>
-              <div className="flex items-center space-x-4 space-y-3">
-                <h6>Website : </h6>
+              <div className="flex items-center">
+                <h6 className="w-40 text-right pr-4">Website:</h6>
                 <input
                   type="text"
                   name="website"
                   value={formData.website}
                   onChange={handleInputChange}
-                  className="px-2 border border-black"
+                  className="border border-black w-40"
                 />
               </div>
             </div>
           </div>
+
           <div className="p-6 max-w-4xl mx-auto">
             <h2 className="text-xl font-bold mb-4">8. Legal Information:</h2>
             <div className="grid grid-cols-2 gap-4 mb-6">
@@ -407,117 +419,234 @@ const Membershipform = () => {
               </tbody>
             </table>
           </div>
-          <div className="flex space-x-10">
+          <div className="flex flex-col space-y-5 font-bold">
             <div>
-              <h6>10. Details of the Person Authorized : </h6>
+              <h6>10. Details of the Person Authorized:</h6>
             </div>
-            <div>
-              <div className="flex">
-                <h6>Name : </h6>
-                <input type="text" />
+            <div className="flex flex-col space-y-4">
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">Name:</h6>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className="border-b outline-none border-black  w-64"
+                />
               </div>
-              <div className="flex">
-                <h6>Designation : </h6>
-                <input type="text" />
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">Designation:</h6>
+                <input
+                  type="text"
+                  name="designation"
+                  value={formData.designation}
+                  onChange={handleInputChange}
+                  className="border-b outline-none border-black  w-64"
+                />
               </div>
-              <div className="flex">
-                <h6>PAN : </h6>
-                <input type="text" />
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">PAN:</h6>
+                <input
+                  type="text"
+                  name="pan"
+                  value={formData.pan}
+                  onChange={handleInputChange}
+                  className="border-b outline-none border-black  w-64"
+                />
               </div>
-              <div className="flex">
-                <h6>Aadhaar : </h6>
-                <input type="text" />
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">Aadhaar:</h6>
+                <input
+                  type="text"
+                  name="aadhaar"
+                  value={formData.aadhaar}
+                  onChange={handleInputChange}
+                  className="border-b outline-none border-black  w-64"
+                />
               </div>
-              <div className="flex">
-                <h6>Phone : </h6>
-                <input type="text" />
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">Phone:</h6>
+                <input
+                  type="text"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className="border-b outline-none border-black  w-64"
+                />
               </div>
-              <div className="flex">
-                <h6>Mail Id : </h6>
-                <input type="text" />
-              </div>
-            </div>
-          </div>
-          <div className="flex space-x-10">
-            <div>
-              <h6>11. Category of Industry/Trade/Services : </h6>
-            </div>
-            <div>
-              <div className="flex">
-                <h6>Main Category : </h6>
-                <input type="text" />
-              </div>
-              <div className="flex">
-                <h6>Sub Category : </h6>
-                <input type="text" />
-              </div>
-            </div>
-          </div>
-          <div className="flex space-x-10">
-            <div>
-              <h6>12. Catering to Market : </h6>
-            </div>
-            <div>
-              <div className="flex">
-                <h6>Domestic : </h6>
-                <input type="text" />
-              </div>
-              <div className="flex">
-                <h6>Global : </h6>
-                <input type="text" />
-              </div>
-              <div className="flex">
-                <h6>Both : </h6>
-                <input type="text" />
-              </div>
-              <div className="flex">
-                <h6>% of Exports : </h6>
-                <input type="text" />
-              </div>
-              <div className="flex">
-                <h6>% of Imports : </h6>
-                <input type="text" />
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">Mail Id:</h6>
+                <input
+                  type="text"
+                  name="mailId"
+                  value={formData.mailId}
+                  onChange={handleInputChange}
+                  className="border-b outline-none border-black  w-64"
+                />
               </div>
             </div>
           </div>
-          <div className="flex space-x-10 my-10">
+
+          <div className="flex flex-col space-y-5 font-bold">
             <div>
-              <h6>13. Foreign Collaboration if any : </h6>
+              <h6>11. Category of Industry/Trade/Services:</h6>
             </div>
-            <div>
-              <div className="flex">
-                <h6>Name of the Country : </h6>
-                <input type="text" />
+            <div className="flex flex-col space-y-4">
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">Main Category:</h6>
+                <input
+                  type="text"
+                  name="mainCategory"
+                  value={formData.mainCategory}
+                  onChange={handleInputChange}
+                  className="px-2 border-b outline-none border-black w-64"
+                />
               </div>
-              <div className="flex">
-                <h6>Name of the Collaborator / Joint Venture : </h6>
-                <input type="text" />
-              </div>
-            </div>
-          </div>
-          <div className="my-10">
-            <div>
-              <h6>14 . Classification of Industry : </h6>
-            </div>
-            <div>
-              <div className="flex items-center space-x-7">
-                <h6>Large</h6>
-                <input type="checkbox" name="" id="" />
-              </div>
-              <div className="flex items-center space-x-3">
-                <h6>Medium</h6>
-                <input type="checkbox" name="" id="" />
-              </div>
-              <div className="flex items-center space-x-7">
-                <h6>Small</h6>
-                <input type="checkbox" name="" id="" />
-              </div>
-              <div className="flex space-x-7 items-center">
-                <h6>Micro</h6>
-                <input type="checkbox" name="" id="" />
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">Sub Category:</h6>
+                <input
+                  type="text"
+                  name="subCategory"
+                  value={formData.subCategory}
+                  onChange={handleInputChange}
+                  className="px-2 border-b outline-none border-black w-64"
+                />
               </div>
             </div>
           </div>
+
+          <div className="flex flex-col space-y-5 font-bold">
+            <div>
+              <h6>12. Catering to Market:</h6>
+            </div>
+            <div className="flex flex-col space-y-4">
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">Domestic:</h6>
+                <input
+                  type="text"
+                  name="domestic"
+                  value={formData.domestic}
+                  onChange={handleInputChange}
+                  className="px-2 border-b border-black w-64"
+                />
+              </div>
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">Global:</h6>
+                <input
+                  type="text"
+                  name="global"
+                  value={formData.global}
+                  onChange={handleInputChange}
+                  className="px-2 border-b border-black w-64"
+                />
+              </div>
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">Both:</h6>
+                <input
+                  type="text"
+                  name="both"
+                  value={formData.both}
+                  onChange={handleInputChange}
+                  className="px-2 border-b border-black w-64"
+                />
+              </div>
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">% of Exports:</h6>
+                <input
+                  type="text"
+                  name="percentExports"
+                  value={formData.percentExports}
+                  onChange={handleInputChange}
+                  className="px-2 border-b border-black w-64"
+                />
+              </div>
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">% of Imports:</h6>
+                <input
+                  type="text"
+                  name="percentImports"
+                  value={formData.percentImports}
+                  onChange={handleInputChange}
+                  className="px-2 border-b border-black w-64"
+                />
+              </div>
+            </div>
+
+            <div>
+              <h6>13. Foreign Collaboration if any:</h6>
+            </div>
+            <div className="flex flex-col space-y-4">
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">Name of the Country:</h6>
+                <input
+                  type="text"
+                  name="countryName"
+                  value={formData.countryName}
+                  onChange={handleInputChange}
+                  className="px-2 border-b border-black w-64"
+                />
+              </div>
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">
+                  Name of the Collaborator / Joint Venture:
+                </h6>
+                <input
+                  type="text"
+                  name="collaboratorName"
+                  value={formData.collaboratorName}
+                  onChange={handleInputChange}
+                  className="px-2 border-b border-black w-64"
+                />
+              </div>
+            </div>
+
+            <div>
+              <h6>14. Classification of Industry:</h6>
+            </div>
+            <div className="flex flex-col space-y-2">
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">Large:</h6>
+                <input
+                  type="checkbox"
+                  name="large"
+                  checked={formData.large}
+                  onChange={handleInputChange}
+                  className="ml-2"
+                />
+              </div>
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">Medium:</h6>
+                <input
+                  type="checkbox"
+                  name="medium"
+                  checked={formData.medium}
+                  onChange={handleInputChange}
+                  className="ml-2"
+                />
+              </div>
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">Small:</h6>
+                <input
+                  type="checkbox"
+                  name="small"
+                  checked={formData.small}
+                  onChange={handleInputChange}
+                  className="ml-2"
+                />
+              </div>
+              <div className="flex items-center">
+                <h6 className="w-64 text-right pr-4">Micro:</h6>
+                <input
+                  type="checkbox"
+                  name="micro"
+                  checked={formData.micro}
+                  onChange={handleInputChange}
+                  className="ml-2"
+                />
+              </div>
+            </div>
+          </div>
+
           <div className="flex space-x-3 my-10">
             <h6>
               15. Annul Turnover for the last three years (Rs in million):
@@ -547,110 +676,123 @@ const Membershipform = () => {
             </div>
           </div>
 
-          <div className="flex space-x-10 my-10">
-            <div>
-              <h6>16. No of Persons Employed : </h6>
-            </div>
-            <div className=" space-y-3">
-              <div className="flex">
-                <h6>Direct - Office : </h6>
-                <input
-                  type="text"
-                  className="border-black outline-none rounded ml-2 px-2 border"
-                />
-              </div>
-              <div className="flex">
-                <h6>Works : </h6>
-                <input
-                  type="text"
-                  className="border-black outline-none rounded ml-2 px-2 border"
-                />
-              </div>
-              <div className="flex">
-                <h6>Indirect - Contractual : </h6>
-                <input
-                  type="text"
-                  className="border-black outline-none rounded ml-2 px-2 border"
-                />
-              </div>
-              <div className="flex">
-                <h6>Outsourced : </h6>
-                <input
-                  type="text"
-                  className="border-black outline-none rounded ml-2 px-2 border"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="flex space-x-10 my-10">
-            <div>
-              <h6>17. Welfare Obligations : </h6>
-            </div>
-            <div>
-              <div className="flex mb-3">
-                <h6>ESIC : </h6>
-                <input
-                  type="text"
-                  className="border-black outline-none rounded ml-2 px-2 border"
-                />{" "}
-              </div>
-              <div className="flex">
-                <h6>EPF : </h6>
-                <input
-                  type="text"
-                  className="border-black outline-none rounded ml-2 px-2 border"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="flex space-x-10 my-10">
-            <div>
-              <h6>18. Details of branches / Outlet outside India : </h6>
-            </div>
-            <textarea className="border border-black"></textarea>
-          </div>
-          <div className="flex">
-            <div className="mr-2">
-              <h6>
-                19. Are you member of any other Association If yes , mention
-                details :
+          <div className="flex flex-col space-y-10 my-10 font-bold">
+            <div className="flex items-center">
+              <h6 className="w-64 text-right pr-4">
+                16. No of Persons Employed:
               </h6>
-            </div>
-            <div className="flex space-x-7">
-              <div>
-                <input type="checkbox" className="mr-2" />
-                <label htmlFor="YES">YES</label>
+              <div className="flex flex-col space-y-3">
+                <div className="flex items-center">
+                  <h6 className="w-32 text-right pr-2">Direct - Office:</h6>
+                  <input
+                    type="text"
+                    className="border-black outline-none rounded px-2 border w-40"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <h6 className="w-32 text-right pr-2">Works:</h6>
+                  <input
+                    type="text"
+                    className="border-black outline-none rounded px-2 border w-40"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <h6 className="w-32 text-right pr-2">
+                    Indirect - Contractual:
+                  </h6>
+                  <input
+                    type="text"
+                    className="border-black outline-none rounded px-2 border w-40"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <h6 className="w-32 text-right pr-2">Outsourced:</h6>
+                  <input
+                    type="text"
+                    className="border-black outline-none rounded px-2 border w-40"
+                  />
+                </div>
               </div>
-              <div>
-                <input type="checkbox" className="mr-2" />
-                <label htmlFor="NO">NO</label>
-              </div>
             </div>
-          </div>
 
-          <div className="flex">
-            <div className="mr-2">
-              <h6>
+            <div className="flex items-center">
+              <h6 className="w-64 text-right pr-4">17. Welfare Obligations:</h6>
+              <div className="flex flex-col space-y-3">
+                <div className="flex items-center">
+                  <h6 className="w-32 text-right pr-2">ESIC:</h6>
+                  <input
+                    type="text"
+                    className="border-black outline-none rounded px-2 border w-40"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <h6 className="w-32 text-right pr-2">EPF:</h6>
+                  <input
+                    type="text"
+                    className="border-black outline-none rounded px-2 border w-40"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-start">
+              <h6 className="w-64 text-right pr-4">
+                18. Details of branches / Outlet outside India:
+              </h6>
+              <textarea className="border border-black w-64 h-20"></textarea>
+            </div>
+
+            <div className="flex items-start">
+              <h6 className="w-64 text-right pr-4">
+                19. Are you member of any other Association If yes, mention
+                details:
+              </h6>
+              <div className="flex items-center space-x-7">
+                <div className="flex items-center">
+                  <input type="checkbox" className="mr-2" />
+                  <label htmlFor="YES">YES</label>
+                </div>
+                <div className="flex items-center">
+                  <input type="checkbox" className="mr-2" />
+                  <label htmlFor="NO">NO</label>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-start">
+              <h6 className="w-64 text-right pr-4">
                 20. Do you hold any Office Bearers position in any Association
               </h6>
-            </div>
-            <div className="flex space-x-7">
-              <div className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <label htmlFor="YES">YES</label>
+              <div className="flex flex-col space-y-3">
+                <div className="flex items-center space-x-7">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      className="mr-2"
+                      checked={isYesChecked}
+                      onChange={handleYesChange}
+                    />
+                    <label htmlFor="YES">YES</label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      className="mr-2"
+                      checked={!isYesChecked}
+                      onChange={handleYesChange}
+                    />
+                    <label htmlFor="NO">NO</label>
+                  </div>
+                </div>
+                {isYesChecked && (
+                  <div className="flex items-start">
+                    <h6 className="w-64 text-right pr-4">
+                      If yes - mention the Association Name & position:
+                    </h6>
+                    <textarea className="border border-black w-64 h-20"></textarea>
+                  </div>
+                )}
               </div>
-              <div className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <label htmlFor="NO">NO</label>
-              </div>
-            </div>
-            <div className="flex-col">
-              <div>
-                <h6>If yes - mention the Association Name & position :</h6>
-              </div>
-              <textarea name="" id=""></textarea>
             </div>
           </div>
 
