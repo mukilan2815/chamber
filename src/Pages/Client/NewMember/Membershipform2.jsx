@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import icci from "../../Assets/Formheader.png";
+import icci from "../../../Assets/Formheader.png";
+import { useNavigate } from "react-router-dom";
 
 const Membershipform2 = () => {
   const [checkedItems, setCheckedItems] = useState({});
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
-
+  const Navigate = useNavigate();
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     setCheckedItems((prevState) => {
@@ -14,6 +15,11 @@ const Membershipform2 = () => {
       setIsSubmitEnabled(checkedCount >= 3);
       return newCheckedItems;
     });
+  };
+  const Handlesubmit = () => {
+    var a = localStorage.getItem("formData");
+    console.log("Checked Items:", checkedItems);
+    Navigate("/submitted");
   };
 
   return (
@@ -110,6 +116,7 @@ const Membershipform2 = () => {
             }`}
             type="button"
             disabled={!isSubmitEnabled}
+            onClick={Handlesubmit}
           >
             Submit
           </button>

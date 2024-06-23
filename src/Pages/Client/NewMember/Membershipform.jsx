@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import Header from "../../Assets/Formheader.png";
-import Navbar from "../../Components/Navbar";
+import Header from "../../../Assets/Formheader.png";
 import { useNavigate } from "react-router-dom";
 const Membershipform = () => {
   const navigate = useNavigate();
@@ -74,6 +73,18 @@ const Membershipform = () => {
     newProfession[index] = value;
     setFormData({ ...formData, profession: newProfession });
   };
+  const [image, setImage] = useState(null);
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleConstitutionChange = (e) => {
     const { name, checked } = e.target;
@@ -115,16 +126,17 @@ const Membershipform = () => {
       website: formData.website || "Not provided",
     };
     console.log("Form submitted:", formDataWithDefaults);
+    localStorage.setItem("formData", JSON.stringify(formDataWithDefaults));
     navigate("/membershipform2");
   };
 
   return (
-    <div>
+    <div className="w-[60%] ml-[20%] lg:ml-[25%]">
       <form onSubmit={handleSubmit}>
-        <div className="flex-col w-[60%] ml-[20%] justify-center items-center">
+        <div>
           <img src={Header} alt="Header" className="w-fit" />
         </div>
-        <div className="text-blue-800 font-medium w-[60%] ml-[20%]">
+        <div className="text-blue-800 font-medium">
           <div className="text-blue-800 font-medium w-[60%]">
             <div className="flex justify-end space-x-2 mb-4">
               <h5 className="w-32 text-right">Date:</h5>
@@ -132,12 +144,12 @@ const Membershipform = () => {
                 type="text"
                 value={currentDate}
                 readOnly
-                className="border rounded px-2 flex-grow"
+                className="border outline-none rounded px-2 flex-grow"
               />
             </div>
 
             <div className="flex items-center mb-4">
-              <h6 className="w-64 text-right font-semibold">
+              <h6 className="w-64 mr-3 text-right font-semibold">
                 1. Name of Applicant:
               </h6>
               <input
@@ -662,7 +674,7 @@ const Membershipform = () => {
             </div>
           </div>
 
-          <div className="flex space-x-3 my-10">
+          <div className="flex space-x-3 font-bold my-10">
             <h6>
               15. Annul Turnover for the last three years (Rs in million):
             </h6>
@@ -774,11 +786,11 @@ const Membershipform = () => {
               </div>
             </div>
 
-            <div className="flex items-start">
-              <h6 className="w-64 text-right pr-4">
-                20. Do you hold any Office Bearers position in any Association
-              </h6>
-              <div className="flex flex-col space-y-3">
+            <div className="flex-row items-start">
+              <div className="flex">
+                <h6 className="w-64 text-right pr-4">
+                  20. Do you hold any Office Bearers position in any Association
+                </h6>
                 <div className="flex items-center space-x-7">
                   <div className="flex items-center">
                     <input
@@ -799,21 +811,47 @@ const Membershipform = () => {
                     <label htmlFor="NO">NO</label>
                   </div>
                 </div>
-                {isYesChecked && (
-                  <div className="flex items-start">
-                    <h6 className="w-64 text-right pr-4">
-                      If yes - mention the Association Name & position:
-                    </h6>
-                    <textarea className="border border-black w-64 h-20"></textarea>
-                  </div>
-                )}
               </div>
+              <div className="flex flex-col space-y-3"></div>
+              {isYesChecked && (
+                <div className="flex items-start">
+                  <h6 className="w-64 text-right pr-4">
+                    If yes - mention the Association Name & position:
+                  </h6>
+                  <textarea className="border border-black w-64 h-20"></textarea>
+                </div>
+              )}
             </div>
           </div>
 
+          <div className="flex font-bold">
+            <h6> 21. Reason for Joining Chamber :</h6>
+            <textarea
+              name=""
+              id=""
+              className="border-black border ml-4"
+            ></textarea>
+          </div>
+          <div className="flex flex-col ml-4 items-center mt-20 justify-end">
+            {image && (
+              <img
+                src={image}
+                alt="Uploaded"
+                className="w-32 h-32 object-contain mb-4"
+              />
+            )}
+            <input
+              type="file"
+              onChange={handleImageUpload}
+              className="mb-2 p-2 border border-gray-300 rounded"
+            />
+            <h6 className="mt-2 text-center">
+              Signature of Authorized person with seal
+            </h6>
+          </div>
           <button
             type="submit"
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+            className="mt-4 mb-5 bg-blue-500 text-white px-4 py-2 rounded"
           >
             Submit
           </button>
