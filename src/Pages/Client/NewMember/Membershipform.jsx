@@ -63,9 +63,14 @@ const Membershipform = () => {
     "Associations",
   ];
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const handleInputChange = (event) => {
+    const { name, type, checked, value } = event.target;
+    const inputValue = type === "checkbox" ? checked : value;
+
+    setFormData({
+      ...formData,
+      [name]: inputValue,
+    });
   };
 
   const handleProfessionChange = (index, value) => {
@@ -550,9 +555,9 @@ const Membershipform = () => {
               <div className="flex items-center">
                 <h6 className="w-64 text-right pr-4">Domestic:</h6>
                 <input
-                  type="text"
+                  type="checkbox"
                   name="domestic"
-                  value={formData.domestic}
+                  checked={formData.domestic}
                   onChange={handleInputChange}
                   className="px-2 border-b border-black w-64"
                 />
@@ -560,9 +565,9 @@ const Membershipform = () => {
               <div className="flex items-center">
                 <h6 className="w-64 text-right pr-4">Global:</h6>
                 <input
-                  type="text"
+                  type="checkbox"
                   name="global"
-                  value={formData.global}
+                  checked={formData.global}
                   onChange={handleInputChange}
                   className="px-2 border-b border-black w-64"
                 />
@@ -570,13 +575,14 @@ const Membershipform = () => {
               <div className="flex items-center">
                 <h6 className="w-64 text-right pr-4">Both:</h6>
                 <input
-                  type="text"
+                  type="checkbox"
                   name="both"
-                  value={formData.both}
+                  checked={formData.both}
                   onChange={handleInputChange}
                   className="px-2 border-b border-black w-64"
                 />
               </div>
+
               <div className="flex items-center">
                 <h6 className="w-64 text-right pr-4">% of Exports:</h6>
                 <input
