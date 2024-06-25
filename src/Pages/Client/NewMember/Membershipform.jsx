@@ -72,7 +72,11 @@ const Membershipform = () => {
       [name]: inputValue,
     });
   };
+  const [isMember, setIsMember] = useState(false);
 
+  const handleCheckboxChange = (event) => {
+    setIsMember(event.target.checked);
+  };
   const handleProfessionChange = (index, value) => {
     const newProfession = [...formData.profession];
     newProfession[index] = value;
@@ -775,21 +779,44 @@ const Membershipform = () => {
               <textarea className="border border-black w-64 h-20"></textarea>
             </div>
 
-            <div className="flex items-start">
+            <div className="flex-col items-center justify-center">
               <h6 className="w-64 text-right pr-4">
-                19. Are you member of any other Association If yes, mention
-                details:
+                19. Are you member of any other Association :
               </h6>
               <div className="flex items-center space-x-7">
                 <div className="flex items-center">
-                  <input type="checkbox" className="mr-2" />
+                  <input
+                    type="checkbox"
+                    className="mr-2"
+                    id="YES"
+                    checked={isMember}
+                    onChange={handleCheckboxChange}
+                  />
                   <label htmlFor="YES">YES</label>
                 </div>
                 <div className="flex items-center">
-                  <input type="checkbox" className="mr-2" />
+                  <input
+                    type="checkbox"
+                    className="mr-2"
+                    id="NO"
+                    checked={!isMember}
+                    onChange={() => setIsMember(false)}
+                  />
                   <label htmlFor="NO">NO</label>
                 </div>
               </div>
+              {isMember && (
+                <div className="flex items-start mt-4">
+                  <h6 className="w-64 text-right pr-4">
+                    If yes, mention details:
+                  </h6>
+                  <textarea
+                    name="associationDetails"
+                    className="px-2 border border-black w-64"
+                    rows="4"
+                  ></textarea>
+                </div>
+              )}
             </div>
 
             <div className="flex-row items-start">
