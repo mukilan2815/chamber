@@ -6,12 +6,20 @@ import Membershipform2 from "./Pages/Client/NewMember/Membershipform2";
 import Submittedform from "./Pages/Client/NewMember/Submittedform";
 import Submittedpayment from "./Pages/Client/NewMember/Submittedpayment";
 import Login from "./Pages/Client/ExistingMember/Login";
+
+import AdminGC from "./Pages/Admin/AdminGC";
+import AdminAO from "./Pages/Admin/AdminAO";
+import AdminCEO from "./Pages/Admin/AdminCEO";
+import AdminOB from "./Pages/Admin/AdminOB";
+import AdminMC from "./Pages/Admin/AdminMC";
+
+import Home from "./Pages/Admin/Home";
 function App() {
   return (
     <Router>
       <div>
         <Routes>
-          <Route path="/membershipform" element={<Membershipform />} />
+          <Route path="/" element={<Membershipform />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/updateform" element={<Existing />} />
           <Route path="/membershipform2" element={<Membershipform2 />} />
@@ -19,6 +27,15 @@ function App() {
 
           <Route path="/login" element={<Login />} />
           <Route path="/submittedpayment" element={<Submittedpayment />} />
+
+          {/* Admin */}
+
+          <Route path="/admin" element={<Home />} />
+          <Route path="/admingc" element={<AdminGC />} />
+          <Route path="/adminmc" element={<AdminMC />} />
+          <Route path="/adminao" element={<AdminAO />} />
+          <Route path="/adminceo" element={<AdminCEO />} />
+          <Route path="/adminob" element={<AdminOB />} />
         </Routes>
       </div>
     </Router>
