@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import icci from "../../../Assets/Formheader.png";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 const Membershipform2 = () => {
   const [checkedItems, setCheckedItems] = useState({});
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
@@ -17,9 +17,20 @@ const Membershipform2 = () => {
     });
   };
   const Handlesubmit = () => {
-    var a = localStorage.getItem("formData");
-    
-    console.log("Checked Items:", checkedItems);
+    var a = localStorage.getItem("completeFormData");
+    console.log("FOMR ! ", a);
+    axios
+      .post("http://127.0.0.1:8000/membershipform/", {
+        data: a,
+      })
+      .then(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     Navigate("/submitted");
   };
 

@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../../Assets/Formheader.png";
-
 const Membershipform = () => {
   const navigate = useNavigate();
   const currentDate = new Date().toLocaleDateString();
   const currentYear = new Date().getFullYear();
 
   const [formData, setFormData] = useState({
-    applicantName: "",
-    profession: ["", "", ""],
+    applicantName: "John Doe",
+    profession: ["Engineer", "", ""],
     constitution: {
-      individual: false,
+      individual: true,
       proprietaryFirm: false,
       partnershipFirmLLP: false,
       privateLimited: false,
@@ -21,66 +20,48 @@ const Membershipform = () => {
       society: false,
       associations: false,
     },
-    establishmentYear: "",
-    businessActivity: "",
-    registeredOfficeAddress: "",
-    officeAddress: "",
+    establishmentYear: "2005",
+    businessActivity: "Software Development",
+    registeredOfficeAddress: "123 Main St, Cityville, State, Country",
+    officeAddress: "456 Business Ave, Townsville, State, Country",
     worksFactoryAddress: "",
-    phoneLandline: "",
-    phoneMobile: "",
-    email: "",
-    website: "",
-    name: "",
-    designation: "",
-    pan: "",
-    aadhaar: "",
-    phone: "",
-    mailId: "",
-    mainCategory: "",
-    subCategory: "",
+    phoneLandline: "+1234567890",
+    phoneMobile: "+9876543210",
+    email: "john.doe@example.com",
+    website: "http://www.example.com",
+    name: "Jane Smith",
+    designation: "Manager",
+    pan: "XYZW9876P",
+    aadhaar: "987654321098",
+    phone: "+1122334455",
+    mailId: "jane.smith@example.com",
+    mainCategory: "IT",
+    subCategory: "Software Development",
     domestic: false,
     global: false,
-    both: false,
-    percentExports: "",
-    percentImports: "",
-    countryName: "",
-    collaboratorName: "",
+    both: true,
+    percentExports: "30%",
+    percentImports: "20%",
+    countryName: "USA",
+    collaboratorName: "ABC Inc.",
     large: false,
-    medium: false,
+    medium: true,
     small: false,
     micro: false,
-    firstYear: "",
-    secondYear: "",
-    thirdYear: "",
-    directOffice: "",
-    directWorks: "",
-    indirectContractual: "",
-    indirectOutsourced: "",
-    esic: "",
-    epf: "",
-    branchesOutsideIndia: "",
+    firstYear: "5000000.00",
+    secondYear: "6000000.00",
+    thirdYear: "7000000.00",
+    directOffice: "50",
+    directWorks: "20",
+    indirectContractual: "30",
+    indirectOutsourced: "10",
+    esic: "ESIC1234567",
+    epf: "EPF9876543",
+    branchesOutsideIndia: "Branch 1: Address 1, Branch 2: Address 2",
     associationDetails: "",
     officeBearerDetails: "",
-    reasonForJoining: "",
+    reasonForJoining: "To expand business networks.",
   });
-  const labels = [
-    "Proprietary Firm",
-    "Partnership Firm LLP",
-    "Private Limited",
-    "Public Limited Unlisted",
-    "Public Limited Listed",
-    "Trust",
-    "Society",
-    "Associations",
-  ];
-  const handleCheckboxChange = (event) => {
-    setIsMember(event.target.checked);
-  };
-
-  // Add handleYesChange function
-  const handleYesChange = () => {
-    setIsYesChecked(!isYesChecked);
-  };
 
   const [legalInfo, setLegalInfo] = useState({
     aadhaarCardNo: "",
@@ -128,13 +109,9 @@ const Membershipform = () => {
       reader.readAsDataURL(file);
     }
   };
-
-  const handleConstitutionChange = (e) => {
-    const { name, checked } = e.target;
-    setFormData({
-      ...formData,
-      constitution: { ...formData.constitution, [name]: checked },
-    });
+  const handleConstitutionChange = (event) => {
+    const { value } = event.target;
+    setFormData({ ...formData, constitution: value });
   };
 
   const handleLegalInfoChange = (e) => {
@@ -211,11 +188,27 @@ const Membershipform = () => {
       signature: image,
     };
 
-    // Store the complete form data in localStorage
     localStorage.setItem("completeFormData", JSON.stringify(completeFormData));
-
     console.log("Form submitted:", completeFormData);
     navigate("/membershipform2");
+  };
+  const labels = [
+    "Proprietary Firm",
+    "Partnership Firm LLP",
+    "Private Limited",
+    "Public Limited Unlisted",
+    "Public Limited Listed",
+    "Trust",
+    "Society",
+    "Associations",
+  ];
+  const handleCheckboxChange = (event) => {
+    setIsMember(event.target.checked);
+  };
+
+  // Add handleYesChange function
+  const handleYesChange = () => {
+    setIsYesChecked(!isYesChecked);
   };
 
   return (
