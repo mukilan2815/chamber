@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../../index.css";
+import Navbar from "./Navbar";
 function Home() {
   const navigate = useNavigate();
 
@@ -10,7 +11,7 @@ function Home() {
 
   return (
     <div>
-      {/* <Navbar className="z-10" /> */}
+      <Navbar />
       <div className=" z-0 overflow-x-hidden bg-slate-900 h-screen relative pt-40 pb-20 lg:pt-44">
         <div className="relative xl:container    m-auto px-6 md:px-12 lg:px-6">
           <div className="w-10 h-10 bg-transparent border-4 border-blue-600 animate-spin1"></div>

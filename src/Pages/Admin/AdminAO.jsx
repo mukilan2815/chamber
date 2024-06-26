@@ -1,7 +1,9 @@
-import React from "react";
+import React from 'react'
 
 const AdminAO = () => {
-  return <div>AdminAO</div>;
-};
+  return (
+    <div>AdminAO</div>
+  )
+}
 
-export default AdminAO;
+export default AdminAO

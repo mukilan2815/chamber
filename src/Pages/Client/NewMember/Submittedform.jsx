@@ -1,8 +1,8 @@
 import React from "react";
 
 const Submittedform = () => {
-  const formData = JSON.parse(localStorage.getItem("formData"));
   const formData2 = JSON.parse(localStorage.getItem("formData2"));
+  const storedFormData = JSON.parse(localStorage.getItem("completeFormData"));
 
   return (
     <div className="container mx-auto py-8">
@@ -12,7 +12,7 @@ const Submittedform = () => {
           <tr>
             <td className="border-2 px-4 py-2 font-bold">Form Data 1:</td>
             <td className="border-2 px-4 py-2">
-              <pre>{JSON.stringify(formData, null, 2)}</pre>
+              <pre>{JSON.stringify(storedFormData, null, 2)}</pre>
             </td>
           </tr>
           <tr>

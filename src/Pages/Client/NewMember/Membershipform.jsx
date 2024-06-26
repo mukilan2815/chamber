@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import Header from "../../../Assets/Formheader.png";
 import { useNavigate } from "react-router-dom";
+import Header from "../../../Assets/Formheader.png";
+
 const Membershipform = () => {
   const navigate = useNavigate();
   const currentDate = new Date().toLocaleDateString();
@@ -29,7 +30,57 @@ const Membershipform = () => {
     phoneMobile: "",
     email: "",
     website: "",
+    name: "",
+    designation: "",
+    pan: "",
+    aadhaar: "",
+    phone: "",
+    mailId: "",
+    mainCategory: "",
+    subCategory: "",
+    domestic: false,
+    global: false,
+    both: false,
+    percentExports: "",
+    percentImports: "",
+    countryName: "",
+    collaboratorName: "",
+    large: false,
+    medium: false,
+    small: false,
+    micro: false,
+    firstYear: "",
+    secondYear: "",
+    thirdYear: "",
+    directOffice: "",
+    directWorks: "",
+    indirectContractual: "",
+    indirectOutsourced: "",
+    esic: "",
+    epf: "",
+    branchesOutsideIndia: "",
+    associationDetails: "",
+    officeBearerDetails: "",
+    reasonForJoining: "",
   });
+  const labels = [
+    "Proprietary Firm",
+    "Partnership Firm LLP",
+    "Private Limited",
+    "Public Limited Unlisted",
+    "Public Limited Listed",
+    "Trust",
+    "Society",
+    "Associations",
+  ];
+  const handleCheckboxChange = (event) => {
+    setIsMember(event.target.checked);
+  };
+
+  // Add handleYesChange function
+  const handleYesChange = () => {
+    setIsYesChecked(!isYesChecked);
+  };
 
   const [legalInfo, setLegalInfo] = useState({
     aadhaarCardNo: "",
@@ -46,43 +97,26 @@ const Membershipform = () => {
     { name: "", designation: "", pan: "" },
     { name: "", designation: "", pan: "" },
   ]);
+
   const [isYesChecked, setIsYesChecked] = useState(false);
-
-  const handleYesChange = () => {
-    setIsYesChecked(!isYesChecked);
-  };
-
-  const labels = [
-    "Proprietary Firm",
-    "Partnership Firm LLP",
-    "Private Limited",
-    "Public Limited Unlisted",
-    "Public Limited Listed",
-    "Trust",
-    "Society",
-    "Associations",
-  ];
+  const [isMember, setIsMember] = useState(false);
+  const [image, setImage] = useState(null);
 
   const handleInputChange = (event) => {
     const { name, type, checked, value } = event.target;
     const inputValue = type === "checkbox" ? checked : value;
 
-    setFormData({
-      ...formData,
+    setFormData((prevState) => ({
+      ...prevState,
       [name]: inputValue,
-    });
+    }));
   };
-  const [isMember, setIsMember] = useState(false);
 
-  const handleCheckboxChange = (event) => {
-    setIsMember(event.target.checked);
-  };
   const handleProfessionChange = (index, value) => {
     const newProfession = [...formData.profession];
     newProfession[index] = value;
     setFormData({ ...formData, profession: newProfession });
   };
-  const [image, setImage] = useState(null);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -119,23 +153,68 @@ const Membershipform = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formDataWithDefaults = {
+
+    const completeFormData = {
       ...formData,
-      applicantName: formData.applicantName || "Not provided",
-      profession: formData.profession.map((p) => p || "Not specified"),
-      establishmentYear: formData.establishmentYear || currentYear.toString(),
-      businessActivity: formData.businessActivity || "Not provided",
-      registeredOfficeAddress:
-        formData.registeredOfficeAddress || "Not provided",
-      officeAddress: formData.officeAddress || "Not provided",
-      worksFactoryAddress: formData.worksFactoryAddress || "Not provided",
-      phoneLandline: formData.phoneLandline || "Not provided",
-      phoneMobile: formData.phoneMobile || "Not provided",
-      email: formData.email || "Not provided",
-      website: formData.website || "Not provided",
+      legalInfo,
+      directors,
+      authorizedPerson: {
+        name: formData.name,
+        designation: formData.designation,
+        pan: formData.pan,
+        aadhaar: formData.aadhaar,
+        phone: formData.phone,
+        mailId: formData.mailId,
+      },
+      industryCategory: {
+        mainCategory: formData.mainCategory,
+        subCategory: formData.subCategory,
+      },
+      marketCatering: {
+        domestic: formData.domestic,
+        global: formData.global,
+        both: formData.both,
+        percentExports: formData.percentExports,
+        percentImports: formData.percentImports,
+      },
+      foreignCollaboration: {
+        countryName: formData.countryName,
+        collaboratorName: formData.collaboratorName,
+      },
+      industryClassification: {
+        large: formData.large,
+        medium: formData.medium,
+        small: formData.small,
+        micro: formData.micro,
+      },
+      annualTurnover: {
+        firstYear: formData.firstYear,
+        secondYear: formData.secondYear,
+        thirdYear: formData.thirdYear,
+      },
+      employmentDetails: {
+        directOffice: formData.directOffice,
+        directWorks: formData.directWorks,
+        indirectContractual: formData.indirectContractual,
+        indirectOutsourced: formData.indirectOutsourced,
+      },
+      welfareObligations: {
+        esic: formData.esic,
+        epf: formData.epf,
+      },
+      branchesOutsideIndia: formData.branchesOutsideIndia,
+      memberOfOtherAssociation: isMember,
+      otherAssociationDetails: formData.associationDetails,
+      holdOfficeBearerPosition: isYesChecked,
+      officeBearerDetails: formData.officeBearerDetails,
+      reasonForJoining: formData.reasonForJoining,
+      signature: image,
     };
-    console.log("Form submitted:", formDataWithDefaults);
-    localStorage.setItem("formData", JSON.stringify(formDataWithDefaults));
+
+    // Store the complete form data in localStorage
+    localStorage.setItem("completeFormData", JSON.stringify(completeFormData));
+
+    console.log("Form submitted:", completeFormData);
     navigate("/membershipform2");
   };
 

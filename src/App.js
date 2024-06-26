@@ -14,6 +14,7 @@ import AdminOB from "./Pages/Admin/AdminOB";
 import AdminMC from "./Pages/Admin/AdminMC";
 
 import Home from "./Pages/Admin/Home";
+import Analysis from "./Pages/Admin/Analysis";
 function App() {
   return (
     <Router>
@@ -36,6 +37,8 @@ function App() {
           <Route path="/adminao" element={<AdminAO />} />
           <Route path="/adminceo" element={<AdminCEO />} />
           <Route path="/adminob" element={<AdminOB />} />
+
+          <Route path="/analysis" element={<Analysis />} />
         </Routes>
       </div>
     </Router>

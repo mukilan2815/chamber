@@ -18,6 +18,7 @@ const Membershipform2 = () => {
   };
   const Handlesubmit = () => {
     var a = localStorage.getItem("formData");
+    
     console.log("Checked Items:", checkedItems);
     Navigate("/submitted");
   };
