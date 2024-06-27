@@ -15,6 +15,7 @@ import AdminMC from "./Pages/Admin/AdminMC";
 
 import Home from "./Pages/Admin/Home";
 import Analysis from "./Pages/Admin/Analysis";
+
 function App() {
   return (
     <Router>

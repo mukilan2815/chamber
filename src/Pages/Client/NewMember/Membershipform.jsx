@@ -1,98 +1,159 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import Header from "../../../Assets/Formheader.png";
 import icci from "../../../Assets/Formheader.png";
+import axios from "axios";
 
 const Membershipform = () => {
   const navigate = useNavigate();
   const currentDate = new Date().toLocaleDateString();
   const currentYear = new Date().getFullYear();
-
-  const [formData, setFormData] = useState({
-    applicantName: "",
-    profession: ["", "", ""],
-    constitution: {
-      individual: false,
-      proprietaryFirm: false,
-      partnershipFirmLLP: false,
-      privateLimited: false,
-      publicLimitedUnlisted: false,
-      publicLimitedListed: false,
-      trust: false,
-      society: false,
-      associations: false,
-    },
-    establishmentYear: "",
-    businessActivity: "",
-    registeredOfficeAddress: "",
-    officeAddress: "",
-    worksFactoryAddress: "",
-    phoneLandline: "",
-    phoneMobile: "",
-    email: "",
-    website: "",
-    name: "",
-    designation: "",
-    pan: "",
-    aadhaar: "",
-    phone: "",
-    mailId: "",
-    mainCategory: "",
-    subCategory: "",
-    domestic: false,
-    global: false,
-    percentExports: "",
-    percentImports: "",
-    countryName: "",
-    collaboratorName: "",
-    large: false,
-    medium: false,
-    small: false,
-    micro: false,
-    firstYear: "",
-    secondYear: "",
-    thirdYear: "",
-    directOffice: "",
-    directWorks: "",
-    indirectContractual: "",
-    indirectOutsourced: "",
-    esic: "",
-    epf: "",
-    branchesOutsideIndia: "",
-    associationDetails: "",
-    officeBearerDetails: "",
-    reasonForJoining: "",
-  });
-
-  const [legalInfo, setLegalInfo] = useState({
-    aadhaarCardNo: "",
-    panCardNo: "",
-    gstNo: "",
-    companyRegistrationNo: "",
-    societyRegistrationNo: "",
-  });
-
-  const [directors, setDirectors] = useState([
-    { name: "", designation: "", pan: "" },
-    { name: "", designation: "", pan: "" },
-    { name: "", designation: "", pan: "" },
-    { name: "", designation: "", pan: "" },
-    { name: "", designation: "", pan: "" },
-  ]);
-
   const [checkedItems, setCheckedItems] = useState({});
-  const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
+  const [files, setFiles] = useState({});
+  const [image, setImage] = useState(null);
   const [isMember, setIsMember] = useState(false);
   const [isYesChecked, setIsYesChecked] = useState(false);
-  const [image, setImage] = useState(null);
+  const [directors, setDirectors] = useState([]);
+
+  const handleYesChange = (event) => {
+    setIsYesChecked(event.target.checked);
+  };
+
+  const [formData, setFormData] = useState({
+    NameofApplicant: "John Doe",
+    constitution: "Individual",
+    profession1: "Software Developer",
+    YearofEstablishment: "2010",
+    Businessactivity: "Software Development and Consulting",
+    Registerofficeaddress: "1234 Software St, Tech City",
+    Addressforcommunication_office: "1234 Software St, Tech City",
+    Addressforcommunication_work: "5678 Development Ave, Tech Park",
+    Communicationdetails_landline: "123-456-7890",
+    Communicationdetails_mobile: "098-765-4321",
+    Communicationdetails_email: "contact@techcompany.com",
+    Communicationdetails_web: "https://www.techcompany.com",
+    Legalinfo_aadhar: "123456789101",
+    Legalinfo_pancard: "ABCDE1234F",
+    Legalinfo_GSTNo: "22AAAAA0000A1Z5",
+    Legalinfo_CompanyFirmRegNo: "C12345678901234",
+    Legalinfo_SocietyAssociationRegNo: "12345678901234",
+    Personauthorized_Name: "Jane Doe",
+    Personauthorized_Designation: "CTO",
+    personauthorized_pan: "BCDEA1234G",
+    personauthorized_aadhar: "432167890123",
+    personauthorized_phone: "098-765-4321",
+    personauthorized_email: "jane.doe@techcompany.com",
+    Maincategory: "IT and Software",
+    Subcategory: "Software Development",
+    Cateringtomarket: "Global",
+    Percentageofimports: "10%",
+    Percentageofexports: "50%",
+    Foreigncollaboration_country: "USA",
+    Foreigncollaboration_collaborator: "GlobalTech Inc",
+    Classificationofindustry: "Large",
+    Annualturnover_year1: "10",
+    Annualturnover_year2: "1200000",
+    Annualturnover_year3: "150",
+    Noofpersonsemployed_direct: "50",
+    Noofpersonsemployed_works: "200",
+    Noofpersonsemployed_indirect: "100",
+    Noofpersonsemployed_outsourced: "30",
+    ESIC: "Yes",
+    EPF: "Yes",
+    Detailsofbranches: "Tech City, Tech Park",
+    Memberofanyother: "Yes",
+    association_name: "Tech Industry Association",
+    is_office_bearer: "No",
+    association_position: "",
+    reason_for_joining_chamber: "Networking and Business Opportunities",
+    e_sign: "JohnDoeSignature.png",
+    IncomeandExpenditure: "IncomeandExpenditure.pdf",
+    incometaxtpan: "ABCDE1234F",
+    FactoryRegistrationCertificate: "FactoryRegCert.pdf",
+    MemorandumArticleofAssociation: "MemorandumArticle.pdf",
+    GSTINRegistrationCopy: "GSTINRegCopy.pdf",
+    IECodeCertificate: "IECodeCert.pdf",
+    ProfessionalCertificate: "ProfessionalCert.pdf",
+    CopyofLandDocument: "LandDoc.pdf",
+    LandHolding: "LandHoldingDetails.pdf",
+    passportsizephoto: "JohnDoePhoto.png",
+    DirectorsPartners: "DirectorsPartnersDetails.pdf",
+    form_status: "pending",
+    Reasonforrejection: "",
+  });
+
+  const [legalInfo, setLegalInfo] = "Your legal information here.";
+
+  const labels = [
+    "Proprietary Firm",
+    "Partnership Firm LLP",
+    "Private Limited",
+    "Public Limited Unlisted",
+    "Public Limited Listed",
+    "Trust",
+    "Society",
+    "Associations",
+  ];
+
+  const documentOptions = [
+    "Income Tax PAN Number",
+    "Factory Registration Certificate",
+    "Memorandum & Article of Association (Compulsory for Private / Limited Companies)",
+    "GSTIN Registration Copy (Compulsory)",
+    "IE Code Certificate",
+    "Professional Certificate",
+    "Copy of Land Document",
+    "Copy of Land Holding (Patta)",
+  ];
+
+  const handleCheckboxChange = (e) => {
+    setCheckedItems({
+      ...checkedItems,
+      [e.target.name]: e.target.checked,
+    });
+  };
+
+  const handleFileChange = (e) => {
+    const { name, files: selectedFiles } = e.target;
+    setFiles({
+      ...files,
+      [name]: selectedFiles,
+    });
+  };
 
   const handleInputChange = (event) => {
-    const { name, value, type, checked } = event.target;
+    const { name, type, checked, value } = event.target;
+    const inputValue = type === "checkbox" ? checked : value;
+
     setFormData((prevState) => ({
       ...prevState,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: inputValue,
     }));
+  };
+
+  const handleProfessionChange = (index, value) => {
+    const newProfession = [...formData.profession];
+    newProfession[index] = value;
+    setFormData({ ...formData, profession: newProfession });
+  };
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleConstitutionChange = (e) => {
+    const { name, checked } = e.target;
+    setFormData({
+      ...formData,
+      constitution: { ...formData.constitution, [name]: checked },
+    });
   };
 
   const handleLegalInfoChange = (e) => {
@@ -109,208 +170,90 @@ const Membershipform = () => {
     setDirectors(newDirectors);
   };
 
-  const handleCheckboxChange = (event) => {
-    const { name, checked } = event.target;
-    setCheckedItems((prevState) => {
-      const newCheckedItems = { ...prevState, [name]: checked };
-      const checkedCount =
-        Object.values(newCheckedItems).filter(Boolean).length;
-      setIsSubmitEnabled(checkedCount >= 3);
-      return newCheckedItems;
-    });
-  };
-
-  const handleFileChange = (event) => {
-    const { name, files } = event.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: files[0],
-    }));
-  };
-
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formDataToSend = new FormData();
-
-    // Mapping form fields to API response fields
-    const fieldMapping = {
-      applicantName: "NameofApplicant",
-      establishmentYear: "YearofEstablishment",
-      businessActivity: "Businessactivity",
-      registeredOfficeAddress: "Registerofficeaddress",
-      officeAddress: "Addressforcommunication_office",
-      worksFactoryAddress: "Addressforcommunication_work",
-      phoneLandline: "Communicationdetails_landline",
-      phoneMobile: "Communicationdetails_mobile",
-      email: "Communicationdetails_email",
-      website: "Communicationdetails_web",
-      name: "Personauthorized_Name",
-      designation: "Personauthorized_Designation",
-      pan: "personauthorized_pan",
-      aadhaar: "personauthorized_aadhar",
-      phone: "personauthorized_phone",
-      mailId: "personauthorized_email",
-      mainCategory: "Maincategory",
-      subCategory: "Subcategory",
-      percentExports: "Percentageofexports",
-      percentImports: "Percentageofimports",
-      countryName: "Foreigncollaboration_country",
-      collaboratorName: "Foreigncollaboration_collaborator",
-      firstYear: "Annualturnover_year1",
-      secondYear: "Annualturnover_year2",
-      thirdYear: "Annualturnover_year3",
-      directOffice: "Noofpersonsemployed_direct",
-      directWorks: "Noofpersonsemployed_works",
-      indirectContractual: "Noofpersonsemployed_indirect",
-      indirectOutsourced: "Noofpersonsemployed_outsourced",
-      esic: "ESIC",
-      epf: "EPF",
-      branchesOutsideIndia: "Detailsofbranches",
-      associationDetails: "association_name",
-      officeBearerDetails: "association_position",
-      reasonForJoining: "reason_for_joining_chamber",
+    const completeFormData = {
+      NameofApplicant: formData.NameofApplicant,
+      constitution: formData.constitution,
+      profession1: formData.profession1,
+      YearofEstablishment: formData.YearofEstablishment,
+      Businessactivity: formData.Businessactivity,
+      Registerofficeaddress: formData.Registerofficeaddress,
+      Addressforcommunication_office: formData.Addressforcommunication_office,
+      Addressforcommunication_work: formData.Addressforcommunication_work,
+      Communicationdetails_landline: formData.Communicationdetails_landline,
+      Communicationdetails_mobile: formData.Communicationdetails_mobile,
+      Communicationdetails_email: formData.Communicationdetails_email,
+      Communicationdetails_web: formData.Communicationdetails_web,
+      Legalinfo_aadhar: formData.Legalinfo_aadhar,
+      Legalinfo_pancard: formData.Legalinfo_pancard,
+      Legalinfo_GSTNo: formData.Legalinfo_GSTNo,
+      Legalinfo_CompanyFirmRegNo: formData.Legalinfo_CompanyFirmRegNo,
+      Legalinfo_SocietyAssociationRegNo:
+        formData.Legalinfo_SocietyAssociationRegNo,
+      Personauthorized_Name: formData.Personauthorized_Name,
+      Personauthorized_Designation: formData.Personauthorized_Designation,
+      personauthorized_pan: formData.personauthorized_pan,
+      personauthorized_aadhar: formData.personauthorized_aadhar,
+      personauthorized_phone: formData.personauthorized_phone,
+      personauthorized_email: formData.personauthorized_email,
+      Maincategory: formData.Maincategory,
+      Subcategory: formData.Subcategory,
+      Cateringtomarket: formData.Cateringtomarket,
+      Percentageofimports: formData.Percentageofimports,
+      Percentageofexports: formData.Percentageofexports,
+      Foreigncollaboration_country: formData.Foreigncollaboration_country,
+      Foreigncollaboration_collaborator:
+        formData.Foreigncollaboration_collaborator,
+      Classificationofindustry: formData.Classificationofindustry,
+      Annualturnover_year1: formData.Annualturnover_year1,
+      Annualturnover_year2: formData.Annualturnover_year2,
+      Annualturnover_year3: formData.Annualturnover_year3,
+      Noofpersonsemployed_direct: formData.Noofpersonsemployed_direct,
+      Noofpersonsemployed_works: formData.Noofpersonsemployed_works,
+      Noofpersonsemployed_indirect: formData.Noofpersonsemployed_indirect,
+      Noofpersonsemployed_outsourced: formData.Noofpersonsemployed_outsourced,
+      ESIC: formData.ESIC,
+      EPF: formData.EPF,
+      Detailsofbranches: formData.Detailsofbranches,
+      Memberofanyother: formData.Memberofanyother,
+      association_name: formData.association_name,
+      is_office_bearer: formData.is_office_bearer,
+      association_position: formData.association_position,
+      reason_for_joining_chamber: formData.reason_for_joining_chamber,
+      e_sign: image,
+      IncomeandExpenditure: formData.IncomeandExpenditure,
+      incometaxtpan: formData.incometaxtpan,
+      FactoryRegistrationCertificate: formData.FactoryRegistrationCertificate,
+      MemorandumArticleofAssociation: formData.MemorandumArticleofAssociation,
+      GSTINRegistrationCopy: formData.GSTINRegistrationCopy,
+      IECodeCertificate: formData.IECodeCertificate,
+      ProfessionalCertificate: formData.ProfessionalCertificate,
+      CopyofLandDocument: formData.CopyofLandDocument,
+      LandHolding: formData.LandHolding,
+      passportsizephoto: formData.passportsizephoto,
+      DirectorsPartners: formData.DirectorsPartners,
+      form_status: formData.form_status,
+      Reasonforrejection: formData.Reasonforrejection,
     };
 
-    // Populate formDataToSend with mapped fields
-    Object.entries(fieldMapping).forEach(([formField, apiField]) => {
-      formDataToSend.append(apiField, formData[formField] || null);
+    console.log(completeFormData);
+
+    // Store the complete form data in localStorage
+    localStorage.setItem("completeFormData", JSON.stringify(completeFormData));
+    navigate("/analysis");
+    console.log("Form submitted:", completeFormData);
+    axios.post("http://192.168.169.17:8000/membershipform/", completeFormData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
-
-    // Handle constitution
-    const constitutionType = Object.entries(formData.constitution).find(
-      ([key, value]) => value === true
-    );
-    formDataToSend.append(
-      "constitution",
-      constitutionType ? constitutionType[0] : null
-    );
-
-    // Handle profession fields
-    formData.profession.forEach((prof, index) => {
-      formDataToSend.append(`profession${index + 1}`, prof || null);
-    });
-
-    // Handle market catering
-    if (formData.domestic && formData.global) {
-      formDataToSend.append("Cateringtomarket", "Both");
-    } else if (formData.domestic) {
-      formDataToSend.append("Cateringtomarket", "Domestic");
-    } else if (formData.global) {
-      formDataToSend.append("Cateringtomarket", "Global");
-    }
-
-    // Handle industry classification
-    const industryClass = Object.entries(formData).find(
-      ([key, value]) =>
-        ["large", "medium", "small", "micro"].includes(key) && value === true
-    );
-    formDataToSend.append(
-      "Classificationofindustry",
-      industryClass ? industryClass[0] : null
-    );
-
-    // Handle membership of other associations
-    formDataToSend.append("Memberofanyother", isMember ? "Yes" : "No");
-
-    // Handle office bearer position
-    formDataToSend.append("is_office_bearer", isYesChecked ? "Yes" : "No");
-
-    // Handle file uploads
-    formDataToSend.append("e_sign", image);
-    ["IncomeandExpenditure", "passportsizephoto", "DirectorsPartners"].forEach(
-      (field) => {
-        if (formData[field]) {
-          formDataToSend.append(field, formData[field]);
-        }
-      }
-    );
-
-    // Handle checked items (documents)
-    Object.entries(checkedItems).forEach(([key, value]) => {
-      if (value && formData[key]) {
-        formDataToSend.append(key, formData[key]);
-      }
-    });
-
-    // Add legal info
-    Object.entries(legalInfo).forEach(([key, value]) => {
-      formDataToSend.append(`Legalinfo_${key}`, value || null);
-    });
-
-    // Add default values
-    formDataToSend.append("id", 1);
-    formDataToSend.append("form_status", "pending");
-    formDataToSend.append("Reasonforrejection", null);
-
-    try {
-      const response = await axios.post(
-        "http://192.168.169.17:8000/membershipform/",
-        formDataToSend,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        console.log("Form submitted successfully:", response.data);
-        navigate("/submitted");
-      } else {
-        console.error(
-          "Form submission failed with status:",
-          response.status,
-          "Response data:",
-          response.data
-        );
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
   };
 
-  const labels = [
-    "Proprietary Firm",
-    "Partnership Firm LLP",
-    "Private Limited",
-    "Public Limited Unlisted",
-    "Public Limited Listed",
-    "Trust",
-    "Society",
-    "Associations",
-  ];
-  const handleProfessionChange = (index, value) => {
-    const newProfession = [...formData.profession];
-    newProfession[index] = value;
-    setFormData((prevState) => ({ ...prevState, profession: newProfession }));
-  };
-
-  const handleYesChange = () => {
-    setIsYesChecked((prevState) => !prevState);
-  };
-
-  const handleConstitutionChange = (e) => {
-    const { name, checked } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      constitution: { ...prevState.constitution, [name]: checked },
-    }));
-  };
   return (
     <div className="w-[60%] ml-[20%] lg:ml-[25%]">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} method="post" enctype="multipart/form-data">
         <div>
           <img src={Header} alt="Header" className="w-fit" />
         </div>
@@ -1051,8 +994,6 @@ const Membershipform = () => {
               Signature of Authorized person with seal
             </h6>
           </div>
-        </div>
-        <div className="max-w-4xl mx-auto p-8 flex flex-col items-center bg-white shadow-lg rounded-lg">
           <div className="mb-6">
             <label className="block text-gray-800 text-base font-semibold mb-2">
               Income and Expenditure statement and your Assets and Liabilities
@@ -1060,90 +1001,77 @@ const Membershipform = () => {
             </label>
             <input
               type="file"
-              name="IncomeandExpenditure"
+              name="incomeExpenditure"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               onChange={handleFileChange}
             />
-          </div>
 
-          <div className="mb-6">
-            <label className="block text-gray-800 text-base font-semibold mb-2">
-              Please enclose any Three of the following:
-            </label>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {[
-                "IncomeTaxPAN",
-                "FactoryRegistrationCertificate",
-                "MemorandumArticleofAssociation",
-                "GSTINRegistrationCopy",
-                "IECodeCertificate",
-                "ProfessionalCertificate",
-                "CopyofLandDocument",
-                "LandHolding",
-              ].map((item, index) => (
-                <label key={index} className="inline-flex items-center">
-                  <input
-                    type="checkbox"
-                    name={item}
-                    checked={!!checkedItems[item]}
-                    onChange={handleCheckboxChange}
-                    className="form-checkbox h-5 w-5 text-blue-600"
-                  />
-                  <span className="ml-2 text-gray-700">{item}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          {Object.keys(checkedItems).map((item, index) => {
-            return (
-              checkedItems[item] && (
-                <div className="mb-6" key={index}>
-                  <label className="block text-gray-800 text-base font-semibold mb-2">
-                    Upload file for {item}
+            <div className="mb-6">
+              <label className="block text-gray-800 text-base font-semibold mb-2">
+                Please enclose any Three of the following:
+              </label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {documentOptions.map((item, index) => (
+                  <label key={index} className="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      name={item}
+                      checked={!!checkedItems[item]}
+                      onChange={handleCheckboxChange}
+                      className="form-checkbox h-5 w-5 text-blue-600"
+                    />
+                    <span className="ml-2 text-gray-700">{item}</span>
                   </label>
-                  <input
-                    type="file"
-                    name={item}
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    onChange={handleFileChange}
-                  />
-                </div>
-              )
-            );
-          })}
+                ))}
+              </div>
+            </div>
 
-          <div className="mb-6">
-            <label className="block text-gray-800 text-base font-semibold mb-2">
-              Two passport size colour photographs of the Authorised
-              Representative
-            </label>
-            <input
-              type="file"
-              name="passportsizephoto"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              multiple
-              onChange={handleFileChange}
-            />
-          </div>
+            {documentOptions.map(
+              (item, index) =>
+                checkedItems[item] && (
+                  <div className="mb-6" key={index}>
+                    <label className="block text-gray-800 text-base font-semibold mb-2">
+                      Upload file for {item}
+                    </label>
+                    <input
+                      type="file"
+                      name={item}
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      onChange={handleFileChange}
+                    />
+                  </div>
+                )
+            )}
 
-          <div className="mb-6">
-            <label className="block text-gray-800 text-base font-semibold mb-2">
-              List of Directors / Partners etc.
-            </label>
-            <input
-              type="file"
-              name="DirectorsPartners"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              onChange={handleFileChange}
-            />
-          </div>
+            <div className="mb-6">
+              <label className="block text-gray-800 text-base font-semibold mb-2">
+                Two passport size colour photographs of the Authorised
+                Representative
+              </label>
+              <input
+                type="file"
+                name="passportPhotos"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                multiple
+                onChange={handleFileChange}
+              />
+            </div>
 
-          <div className="flex items-center justify-between">
+            <div className="mb-6">
+              <label className="block text-gray-800 text-base font-semibold mb-2">
+                List of Directors / Partners etc.
+              </label>
+              <input
+                type="file"
+                name="directorsList"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                onChange={handleFileChange}
+              />
+            </div>
+
             <button
               type="submit"
-              className="mt-4 mb-5 bg-blue-500 text-white px-4 py-2 rounded"
-              disabled={!isSubmitEnabled}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
               Submit
             </button>
