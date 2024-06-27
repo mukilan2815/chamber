@@ -57,16 +57,16 @@ const Dashboard = () => {
         label: title,
         data,
         backgroundColor: [
-          "#000",
-          "#000",
-          "#000",
-          "#000",
-          "#000",
-          "#000",
-          "#000",
-          "#000",
-          "#000",
-          "#000",
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56",
+          "#4BC0C0",
+          "#9966FF",
+          "#FF9F40",
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56",
+          "#4BC0C0",
         ],
         borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
@@ -84,16 +84,12 @@ const Dashboard = () => {
     },
   };
 
-  // Assuming getChartData is a function defined elsewhere that takes three parameters: values, labels, and chartTitle.
-  // This function constructs chart data objects for various business analysis metrics.
-
-  // Corrected code snippet:
   const charts = [
     {
       title: "Constitution",
       data: getChartData(
         Object.values(formData.constitution || {}).map((v) => (v ? 1 : 0)),
-        Object.keys(formData.constitution || {}),
+        Object.keys(formData.constitution),
         "Constitution"
       ),
     },
@@ -103,7 +99,7 @@ const Dashboard = () => {
         Object.values(formData.industryClassification || {}).map((v) =>
           v ? 1 : 0
         ),
-        Object.keys(formData.industryClassification || {}),
+        Object.keys(formData.industryClassification),
         "Industry Classification"
       ),
     },
@@ -113,7 +109,7 @@ const Dashboard = () => {
         Object.values(formData.annualTurnover || {}).map(
           (v) => parseFloat(v) || 0
         ),
-        Object.keys(formData.annualTurnover || {}),
+        Object.keys(formData.annualTurnover),
         "Annual Turnover"
       ),
     },
@@ -121,9 +117,9 @@ const Dashboard = () => {
       title: "Employment Details",
       data: getChartData(
         Object.values(formData.employmentDetails || {}).map(
-          (v) => parseInt(v, 10) || 0
+          (v) => parseInt(v) || 0
         ),
-        Object.keys(formData.employmentDetails || {}),
+        Object.keys(formData.employmentDetails),
         "Employment Details"
       ),
     },
@@ -131,11 +127,11 @@ const Dashboard = () => {
       title: "Market Catering",
       data: getChartData(
         [
-          formData.marketCatering?.domestic ? 1 : 0,
-          formData.marketCatering?.global ? 1 : 0,
-          formData.marketCatering?.both ? 1 : 0,
-          parseFloat(formData.marketCatering?.percentExports) || 0,
-          parseFloat(formData.marketCatering?.percentImports) || 0,
+          formData.marketCatering.domestic ? 1 : 0,
+          formData.marketCatering.global ? 1 : 0,
+          formData.marketCatering.both ? 1 : 0,
+          parseFloat(formData.marketCatering.percentExports) || 0,
+          parseFloat(formData.marketCatering.percentImports) || 0,
         ],
         ["Domestic", "Global", "Both", "% Exports", "% Imports"],
         "Market Catering"

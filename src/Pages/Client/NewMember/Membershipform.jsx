@@ -66,18 +66,18 @@ const Membershipform = () => {
     is_office_bearer: "No",
     association_position: "",
     reason_for_joining_chamber: "Networking and Business Opportunities",
-    e_sign: "JohnDoeSignature.png",
-    IncomeandExpenditure: "IncomeandExpenditure.pdf",
-    incometaxtpan: "ABCDE1234F",
-    FactoryRegistrationCertificate: "FactoryRegCert.pdf",
-    MemorandumArticleofAssociation: "MemorandumArticle.pdf",
-    GSTINRegistrationCopy: "GSTINRegCopy.pdf",
-    IECodeCertificate: "IECodeCert.pdf",
-    ProfessionalCertificate: "ProfessionalCert.pdf",
-    CopyofLandDocument: "LandDoc.pdf",
-    LandHolding: "LandHoldingDetails.pdf",
-    passportsizephoto: "JohnDoePhoto.png",
-    DirectorsPartners: "DirectorsPartnersDetails.pdf",
+    // e_sign: "JohnDoeSignature.png",
+    // IncomeandExpenditure: "IncomeandExpenditure.pdf",
+    // incometaxtpan: "ABCDE1234F",
+    // FactoryRegistrationCertificate: "FactoryRegCert.pdf",
+    // MemorandumArticleofAssociation: "MemorandumArticle.pdf",
+    // GSTINRegistrationCopy: "GSTINRegCopy.pdf",
+    // IECodeCertificate: "IECodeCert.pdf",
+    // ProfessionalCertificate: "ProfessionalCert.pdf",
+    // CopyofLandDocument: "LandDoc.pdf",
+    // LandHolding: "LandHoldingDetails.pdf",
+    // passportsizephoto: "JohnDoePhoto.png",
+    // DirectorsPartners: "DirectorsPartnersDetails.pdf",
     form_status: "pending",
     Reasonforrejection: "",
   });
@@ -244,7 +244,7 @@ const Membershipform = () => {
     localStorage.setItem("completeFormData", JSON.stringify(completeFormData));
     navigate("/analysis");
     console.log("Form submitted:", completeFormData);
-    axios.post("http://192.168.169.17:8000/membershipform/", completeFormData, {
+    axios.post("http://192.168.169.17:8000/membershipform/", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -253,7 +253,12 @@ const Membershipform = () => {
 
   return (
     <div className="w-[60%] ml-[20%] lg:ml-[25%]">
-      <form onSubmit={handleSubmit} method="post" enctype="multipart/form-data">
+      <form
+        onSubmit={handleSubmit}
+        action="http://192.168.169.17:8000/membershipform/"
+        method="post"
+        encType="multipart/form-data"
+      >
         <div>
           <img src={Header} alt="Header" className="w-fit" />
         </div>
