@@ -66,18 +66,18 @@ const Membershipform = () => {
     is_office_bearer: "No",
     association_position: "",
     reason_for_joining_chamber: "Networking and Business Opportunities",
-    // e_sign: "JohnDoeSignature.png",
-    // IncomeandExpenditure: "IncomeandExpenditure.pdf",
-    // incometaxtpan: "ABCDE1234F",
-    // FactoryRegistrationCertificate: "FactoryRegCert.pdf",
-    // MemorandumArticleofAssociation: "MemorandumArticle.pdf",
-    // GSTINRegistrationCopy: "GSTINRegCopy.pdf",
-    // IECodeCertificate: "IECodeCert.pdf",
-    // ProfessionalCertificate: "ProfessionalCert.pdf",
-    // CopyofLandDocument: "LandDoc.pdf",
-    // LandHolding: "LandHoldingDetails.pdf",
-    // passportsizephoto: "JohnDoePhoto.png",
-    // DirectorsPartners: "DirectorsPartnersDetails.pdf",
+    e_sign: null,
+    IncomeandExpenditure: null,
+    incometaxtpan: null,
+    FactoryRegistrationCertificate: null,
+    MemorandumArticleofAssociation: null,
+    GSTINRegistrationCopy: null,
+    IECodeCertificate: null,
+    ProfessionalCertificate: null,
+    CopyofLandDocument: null,
+    LandHolding: null,
+    passportsizephoto: null,
+    DirectorsPartners: null,
     form_status: "pending",
     Reasonforrejection: "",
   });
@@ -95,30 +95,73 @@ const Membershipform = () => {
     "Associations",
   ];
 
-  const documentOptions = [
-    "Income Tax PAN Number",
-    "Factory Registration Certificate",
-    "Memorandum & Article of Association (Compulsory for Private / Limited Companies)",
-    "GSTIN Registration Copy (Compulsory)",
-    "IE Code Certificate",
-    "Professional Certificate",
-    "Copy of Land Document",
-    "Copy of Land Holding (Patta)",
-  ];
+  const [documentOptions, setDocOpt] = useState([
+    {
+      name: "Income Tax PAN Number",
+      pName: "incometaxtpan",
+      checked: false,
+    },
+    {
+      name: "Factory Registration Certificate",
+      pName: "FactoryRegistrationCertificate",
+      checked: false,
+    },
+    {
+      name: "Memorandum & Article of Association",
+      pName: "MemorandumArticleofAssociation",
+      checked: false,
+    },
+    {
+      name: "GSTIN Registration Copy (Compulsory)",
+      pName: "GSTINRegistrationCopy",
+      checked: false,
+    },
+    {
+      name: "IE Code Certificate",
+      pName: "IECodeCertificate",
+      checked: false,
+    },
+    {
+      name: "Professional Certificate",
+      pName: "ProfessionalCertificate",
+      checked: false,
+    },
+    {
+      name: "Copy of Land Document",
+      pName: "CopyofLandDocument",
+      checked: false,
+    },
+    {
+      name: "Copy of Land Holding (Patta)",
+      pName: "LandHolding",
+      checked: false,
+    },
+  ]);
 
   const handleCheckboxChange = (e) => {
-    setCheckedItems({
-      ...checkedItems,
-      [e.target.name]: e.target.checked,
-    });
+    setDocOpt(
+      documentOptions.map((doc) => {
+        if (doc.name === e.target.name) {
+          console.log(
+            `${doc.name} is ${doc.checked ? "checked" : "unchecked"}`
+          );
+          return {
+            ...doc,
+            checked: !doc.checked,
+          };
+        }
+        return doc;
+      })
+    );
   };
 
-  const handleFileChange = (e) => {
-    const { name, files: selectedFiles } = e.target;
-    setFiles({
-      ...files,
-      [name]: selectedFiles,
-    });
+  const handleFileChange = (event) => {
+    const { name, file: selectedFiles } = event.target;
+    const file = event.target.files[0];
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: file,
+    }));
   };
 
   const handleInputChange = (event) => {
@@ -145,6 +188,10 @@ const Membershipform = () => {
         setImage(reader.result);
       };
       reader.readAsDataURL(file);
+      setFormData({
+        ...formData,
+        e_sign: file,
+      });
     }
   };
 
@@ -173,77 +220,6 @@ const Membershipform = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const completeFormData = {
-      NameofApplicant: formData.NameofApplicant,
-      constitution: formData.constitution,
-      profession1: formData.profession1,
-      YearofEstablishment: formData.YearofEstablishment,
-      Businessactivity: formData.Businessactivity,
-      Registerofficeaddress: formData.Registerofficeaddress,
-      Addressforcommunication_office: formData.Addressforcommunication_office,
-      Addressforcommunication_work: formData.Addressforcommunication_work,
-      Communicationdetails_landline: formData.Communicationdetails_landline,
-      Communicationdetails_mobile: formData.Communicationdetails_mobile,
-      Communicationdetails_email: formData.Communicationdetails_email,
-      Communicationdetails_web: formData.Communicationdetails_web,
-      Legalinfo_aadhar: formData.Legalinfo_aadhar,
-      Legalinfo_pancard: formData.Legalinfo_pancard,
-      Legalinfo_GSTNo: formData.Legalinfo_GSTNo,
-      Legalinfo_CompanyFirmRegNo: formData.Legalinfo_CompanyFirmRegNo,
-      Legalinfo_SocietyAssociationRegNo:
-        formData.Legalinfo_SocietyAssociationRegNo,
-      Personauthorized_Name: formData.Personauthorized_Name,
-      Personauthorized_Designation: formData.Personauthorized_Designation,
-      personauthorized_pan: formData.personauthorized_pan,
-      personauthorized_aadhar: formData.personauthorized_aadhar,
-      personauthorized_phone: formData.personauthorized_phone,
-      personauthorized_email: formData.personauthorized_email,
-      Maincategory: formData.Maincategory,
-      Subcategory: formData.Subcategory,
-      Cateringtomarket: formData.Cateringtomarket,
-      Percentageofimports: formData.Percentageofimports,
-      Percentageofexports: formData.Percentageofexports,
-      Foreigncollaboration_country: formData.Foreigncollaboration_country,
-      Foreigncollaboration_collaborator:
-        formData.Foreigncollaboration_collaborator,
-      Classificationofindustry: formData.Classificationofindustry,
-      Annualturnover_year1: formData.Annualturnover_year1,
-      Annualturnover_year2: formData.Annualturnover_year2,
-      Annualturnover_year3: formData.Annualturnover_year3,
-      Noofpersonsemployed_direct: formData.Noofpersonsemployed_direct,
-      Noofpersonsemployed_works: formData.Noofpersonsemployed_works,
-      Noofpersonsemployed_indirect: formData.Noofpersonsemployed_indirect,
-      Noofpersonsemployed_outsourced: formData.Noofpersonsemployed_outsourced,
-      ESIC: formData.ESIC,
-      EPF: formData.EPF,
-      Detailsofbranches: formData.Detailsofbranches,
-      Memberofanyother: formData.Memberofanyother,
-      association_name: formData.association_name,
-      is_office_bearer: formData.is_office_bearer,
-      association_position: formData.association_position,
-      reason_for_joining_chamber: formData.reason_for_joining_chamber,
-      e_sign: image,
-      IncomeandExpenditure: formData.IncomeandExpenditure,
-      incometaxtpan: formData.incometaxtpan,
-      FactoryRegistrationCertificate: formData.FactoryRegistrationCertificate,
-      MemorandumArticleofAssociation: formData.MemorandumArticleofAssociation,
-      GSTINRegistrationCopy: formData.GSTINRegistrationCopy,
-      IECodeCertificate: formData.IECodeCertificate,
-      ProfessionalCertificate: formData.ProfessionalCertificate,
-      CopyofLandDocument: formData.CopyofLandDocument,
-      LandHolding: formData.LandHolding,
-      passportsizephoto: formData.passportsizephoto,
-      DirectorsPartners: formData.DirectorsPartners,
-      form_status: formData.form_status,
-      Reasonforrejection: formData.Reasonforrejection,
-    };
-
-    console.log(completeFormData);
-
-    // Store the complete form data in localStorage
-    localStorage.setItem("completeFormData", JSON.stringify(completeFormData));
-    navigate("/analysis");
-    console.log("Form submitted:", completeFormData);
     axios.post("http://192.168.169.17:8000/membershipform/", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -253,12 +229,7 @@ const Membershipform = () => {
 
   return (
     <div className="w-[60%] ml-[20%] lg:ml-[25%]">
-      <form
-        onSubmit={handleSubmit}
-        action="http://192.168.169.17:8000/membershipform/"
-        method="post"
-        encType="multipart/form-data"
-      >
+      <form onSubmit={handleSubmit}>
         <div>
           <img src={Header} alt="Header" className="w-fit" />
         </div>
@@ -1006,7 +977,7 @@ const Membershipform = () => {
             </label>
             <input
               type="file"
-              name="incomeExpenditure"
+              name="IncomeandExpenditure"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               onChange={handleFileChange}
             />
@@ -1020,12 +991,11 @@ const Membershipform = () => {
                   <label key={index} className="inline-flex items-center">
                     <input
                       type="checkbox"
-                      name={item}
-                      checked={!!checkedItems[item]}
+                      name={item["name"]}
                       onChange={handleCheckboxChange}
                       className="form-checkbox h-5 w-5 text-blue-600"
                     />
-                    <span className="ml-2 text-gray-700">{item}</span>
+                    <span className="ml-2 text-gray-700">{item["name"]}</span>
                   </label>
                 ))}
               </div>
@@ -1033,14 +1003,14 @@ const Membershipform = () => {
 
             {documentOptions.map(
               (item, index) =>
-                checkedItems[item] && (
+                item.checked && (
                   <div className="mb-6" key={index}>
                     <label className="block text-gray-800 text-base font-semibold mb-2">
-                      Upload file for {item}
+                      Upload file for {item["name"]}
                     </label>
                     <input
                       type="file"
-                      name={item}
+                      name={`${item["pName"]}`}
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       onChange={handleFileChange}
                     />
@@ -1055,7 +1025,7 @@ const Membershipform = () => {
               </label>
               <input
                 type="file"
-                name="passportPhotos"
+                name="passportsizephoto"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 multiple
                 onChange={handleFileChange}

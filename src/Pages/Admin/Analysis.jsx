@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
+import axios from "axios";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -27,15 +28,22 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
-  const [formData, setFormData] = useState(null);
+  const [formData, setFormData] = useState([]);
   const [selectedChart, setSelectedChart] = useState("bar");
 
   useEffect(() => {
-    const storedFormData = JSON.parse(localStorage.getItem("completeFormData"));
-    setFormData(storedFormData);
+    axios
+      .get("http://192.168.169.17:8000/membershipform/")
+      .then((response) => {
+        console.log("API response:", response.data); // Debugging log
+        setFormData(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   }, []);
 
-  if (!formData) {
+  if (formData.length === 0) {
     return <div>Loading...</div>;
   }
 
@@ -84,69 +92,64 @@ const Dashboard = () => {
     },
   };
 
+  const aggregateData = (field) => {
+    return formData.map((item) => parseFloat(item[field]) || 0);
+  };
+
+  // Aggregate data for the first chart: annual turnover of all members year by year
+  const annualTurnoverData = {
+    year1: aggregateData("Annualturnover_year1"),
+    year2: aggregateData("Annualturnover_year2"),
+    year3: aggregateData("Annualturnover_year3"),
+  };
+
+  const annualTurnoverChartData = getChartData(
+    [annualTurnoverData.year1.reduce((a, b) => a + b, 0), annualTurnoverData.year2.reduce((a, b) => a + b, 0), annualTurnoverData.year3.reduce((a, b) => a + b, 0)],
+    ["Year 1", "Year 2", "Year 3"],
+    "Annual Turnover"
+  );
+
+  // Aggregate data for the second chart: number of members by constitution
+  const constitutionCounts = formData.reduce((acc, curr) => {
+    acc[curr.constitution] = (acc[curr.constitution] || 0) + 1;
+    return acc;
+  }, {});
+
+  const constitutionChartData = getChartData(
+    Object.values(constitutionCounts),
+    Object.keys(constitutionCounts),
+    "Number of Members by Constitution"
+  );
+
+  // Aggregate data for the third chart: catering to market
+  const marketCounts = formData.reduce((acc, curr) => {
+    acc[curr.Cateringtomarket] = (acc[curr.Cateringtomarket] || 0) + 1;
+    return acc;
+  }, {});
+
+  const marketChartData = getChartData(
+    Object.values(marketCounts),
+    Object.keys(marketCounts),
+    "Catering to Market"
+  );
+
+  // Aggregate data for the fourth chart: classification of industry
+  const industryCounts = formData.reduce((acc, curr) => {
+    acc[curr.Classificationofindustry] = (acc[curr.Classificationofindustry] || 0) + 1;
+    return acc;
+  }, {});
+
+  const industryChartData = getChartData(
+    Object.values(industryCounts),
+    Object.keys(industryCounts),
+    "Classification of Industry"
+  );
+
   const charts = [
-    {
-      title: "Constitution",
-      data: getChartData(
-        Object.values(formData.constitution || {}).map((v) => (v ? 1 : 0)),
-        Object.keys(formData.constitution),
-        "Constitution"
-      ),
-    },
-    {
-      title: "Industry Classification",
-      data: getChartData(
-        Object.values(formData.industryClassification || {}).map((v) =>
-          v ? 1 : 0
-        ),
-        Object.keys(formData.industryClassification),
-        "Industry Classification"
-      ),
-    },
-    {
-      title: "Annual Turnover",
-      data: getChartData(
-        Object.values(formData.annualTurnover || {}).map(
-          (v) => parseFloat(v) || 0
-        ),
-        Object.keys(formData.annualTurnover),
-        "Annual Turnover"
-      ),
-    },
-    {
-      title: "Employment Details",
-      data: getChartData(
-        Object.values(formData.employmentDetails || {}).map(
-          (v) => parseInt(v) || 0
-        ),
-        Object.keys(formData.employmentDetails),
-        "Employment Details"
-      ),
-    },
-    {
-      title: "Market Catering",
-      data: getChartData(
-        [
-          formData.marketCatering.domestic ? 1 : 0,
-          formData.marketCatering.global ? 1 : 0,
-          formData.marketCatering.both ? 1 : 0,
-          parseFloat(formData.marketCatering.percentExports) || 0,
-          parseFloat(formData.marketCatering.percentImports) || 0,
-        ],
-        ["Domestic", "Global", "Both", "% Exports", "% Imports"],
-        "Market Catering"
-      ),
-    },
-    {
-      title: "Welfare Obligations",
-      data: getChartData(
-        Object.values(formData.welfareObligations || {}).map(
-          (v) => parseFloat(v) || 0
-        ),
-        Object.keys(formData.welfareObligations || {}),
-        "Welfare Obligations"
-      ),
-    },
+    { title: "Annual Turnover Year by Year", data: annualTurnoverChartData },
+    { title: "Number of Members by Constitution", data: constitutionChartData },
+    { title: "Catering to Market", data: marketChartData },
+    { title: "Classification of Industry", data: industryChartData },
   ];
 
   return (
