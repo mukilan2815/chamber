@@ -104,7 +104,11 @@ const Dashboard = () => {
   };
 
   const annualTurnoverChartData = getChartData(
-    [annualTurnoverData.year1.reduce((a, b) => a + b, 0), annualTurnoverData.year2.reduce((a, b) => a + b, 0), annualTurnoverData.year3.reduce((a, b) => a + b, 0)],
+    [
+      annualTurnoverData.year1.reduce((a, b) => a + b, 0),
+      annualTurnoverData.year2.reduce((a, b) => a + b, 0),
+      annualTurnoverData.year3.reduce((a, b) => a + b, 0),
+    ],
     ["Year 1", "Year 2", "Year 3"],
     "Annual Turnover"
   );
@@ -118,7 +122,7 @@ const Dashboard = () => {
   const constitutionChartData = getChartData(
     Object.values(constitutionCounts),
     Object.keys(constitutionCounts),
-    "Number of Members by Constitution"
+    "Individual"
   );
 
   // Aggregate data for the third chart: catering to market
@@ -135,7 +139,8 @@ const Dashboard = () => {
 
   // Aggregate data for the fourth chart: classification of industry
   const industryCounts = formData.reduce((acc, curr) => {
-    acc[curr.Classificationofindustry] = (acc[curr.Classificationofindustry] || 0) + 1;
+    acc[curr.Classificationofindustry] =
+      (acc[curr.Classificationofindustry] || 0) + 1;
     return acc;
   }, {});
 
