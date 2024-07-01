@@ -217,14 +217,19 @@ const Membershipform = () => {
     setDirectors(newDirectors);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    axios.post("http://192.168.169.17:8000/membershipform/", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await axios.post(
+      "http://192.168.169.17:8000/membershipform/",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log(response);
   };
 
   return (
