@@ -6,14 +6,10 @@ import Submittedform from "./Pages/Client/NewMember/Submittedform";
 import Submittedpayment from "./Pages/Client/NewMember/Submittedpayment";
 import Login from "./Pages/Client/ExistingMember/Login";
 
-import AdminGC from "./Pages/Admin/AdminGC";
-import AdminAO from "./Pages/Admin/AdminAO";
-import AdminCEO from "./Pages/Admin/AdminCEO";
-import AdminOB from "./Pages/Admin/AdminOB";
-import AdminMC from "./Pages/Admin/AdminMC";
-
 import Home from "./Pages/Admin/Home";
 import Analysis from "./Pages/Admin/Analysis";
+import LoginAdmin from "./Pages/Admin/LoginAdmin";
+import Allmembers from "./Pages/Admin/Allmembers";
 
 function App() {
   return (
@@ -30,13 +26,9 @@ function App() {
 
           {/* Admin */}
 
-          <Route path="/admin" element={<Home />} />
-          <Route path="/admingc" element={<AdminGC />} />
-          <Route path="/adminmc" element={<AdminMC />} />
-          <Route path="/adminao" element={<AdminAO />} />
-          <Route path="/adminceo" element={<AdminCEO />} />
-          <Route path="/adminob" element={<AdminOB />} />
-
+          <Route path="/adminhome" element={<Home />} />
+          <Route path="/allmembers" element={<Allmembers />} />
+          <Route path="/adminlogin" element={<LoginAdmin />} />
           <Route path="/analysis" element={<Analysis />} />
         </Routes>
       </div>
