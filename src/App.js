@@ -10,6 +10,8 @@ import Home from "./Pages/Admin/Home";
 import Analysis from "./Pages/Admin/Analysis";
 import LoginAdmin from "./Pages/Admin/LoginAdmin";
 import Allmembers from "./Pages/Admin/Allmembers";
+import Formexisting from "./Pages/Client/ExistingMember/Formexisting";
+import Approvalpage from "./Pages/Admin/Approvalpage";
 
 function App() {
   return (
@@ -30,6 +32,10 @@ function App() {
           <Route path="/allmembers" element={<Allmembers />} />
           <Route path="/adminlogin" element={<LoginAdmin />} />
           <Route path="/analysis" element={<Analysis />} />
+          <Route path="/approvalpage" element={<Approvalpage />} />
+
+          {/* {exiting user} */}
+          <Route path="/formexisting" element={<Formexisting />} />
         </Routes>
       </div>
     </Router>
