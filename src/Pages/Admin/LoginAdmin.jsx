@@ -16,13 +16,15 @@ const LoginAdmin = () => {
     const password = formData.get("password");
 
     try {
-      const response = await axios.post(
-        "http://192.168.169.82:8000/login/",
-        { username, password },
-        { withCredentials: true }
-      );
+      const response = await axios.post("http://192.168.169.82:8000/login/", {
+        username,
+        password,
+      });
 
       if (response.status === 200) {
+        const token = response.data["token"];
+        localStorage.setItem("token", token);
+        console.log("Token ", token);
         navigate("/adminhome");
       } else {
         setError("Invalid username or password");

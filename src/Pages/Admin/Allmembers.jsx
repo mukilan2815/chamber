@@ -18,10 +18,18 @@ const Allmembers = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const token = localStorage.getItem("token");
+
       try {
         const response = await fetch(
-          "http://192.168.169.82:8000/membershipform/"
+          "http://192.168.169.82:8000/membershipform/",
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
         );
+
         const jsonData = await response.json();
         setData(jsonData);
         console.log(jsonData);

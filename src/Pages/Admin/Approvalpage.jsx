@@ -1,33 +1,30 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Cookies from "js-cookie";
 
 const ApprovalPage = () => {
   const [applications, setApplications] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const csrfToken = Cookies.get("csrftoken")
-        // if (!csrfToken) {
-        //   console.log("Retrying to fetch CSRF token...");
-        //   setTimeout(fetchApplications, 1000);
-        //   return;
-        // }
-        console.log("CSRF Token:", csrfToken);
-
+        const token = localStorage.getItem("token");
         const response = await axios.get(
           "http://192.168.169.82:8000/approval/",
           {
-            withCredentials: true,
             headers: {
-              "X-CSRFToken": csrfToken,
+              Authorization: `Token ${token}`,
             },
           }
         );
-        setApplications(response.data);
+        console.log("API Response:", response);
+
+        const combinedData = [
+          ...response.data.pending,
+          ...response.data.rejected,
+        ];
+        setApplications(combinedData);
       } catch (error) {
         console.error("Error fetching data:", error);
         setError(error.message);
@@ -38,7 +35,6 @@ const ApprovalPage = () => {
 
     fetchApplications();
   }, []);
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -46,6 +42,44 @@ const ApprovalPage = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
+
+  const accept = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://192.168.169.82:8000/approval/",
+        { id },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+      console.log("Accepted User ID:", id);
+      console.log("API Response:", response);
+    } catch (error) {
+      console.error("Error accepting user:", error);
+    }
+  };
+
+  const reject = async (id, reason) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://192.168.169.82:8000/approval/",
+        { id, reason },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+      console.log("Accepted User ID:", id);
+      console.log("API Response:", response);
+    } catch (error) {
+      console.error("Error accepting user:", error);
+    }
+  };
 
   return (
     <div className="p-6">
@@ -73,13 +107,13 @@ const ApprovalPage = () => {
                 <td className="py-2 px-4 border-b">
                   <button
                     className="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded focus:outline-none focus:shadow-outline"
-                    // onClick={() => handleAccept(application.id)}
+                    onClick={() => accept(application.id)}
                   >
                     Accept
                   </button>
                   <button
                     className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 ml-2 rounded focus:outline-none focus:shadow-outline"
-                    // onClick={() => handleReject(application.id)}
+                    onClick={() => reject(application.id, application.reason)}
                   >
                     Reject
                   </button>
@@ -92,5 +126,4 @@ const ApprovalPage = () => {
     </div>
   );
 };
-
 export default ApprovalPage;
