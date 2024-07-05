@@ -22,7 +22,7 @@ const Allmembers = () => {
 
       try {
         const response = await fetch(
-          "http://192.168.169.82:8000/membershipform/",
+          "http://192.168.169.77:8000/membershipform/",
           {
             headers: {
               Authorization: token,
