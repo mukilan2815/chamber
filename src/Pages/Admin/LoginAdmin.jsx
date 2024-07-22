@@ -16,7 +16,7 @@ const LoginAdmin = () => {
     const password = formData.get("password");
 
     try {
-      const response = await axios.post("http://192.168.169.77:8000/login/", {
+      const response = await axios.post("http://192.168.12.72:8000/login/", {
         username,
         password,
       });

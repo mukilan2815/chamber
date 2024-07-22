@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../../Assets/Formheader.png";
-import icci from "../../../Assets/Formheader.png";
 import axios from "axios";
 
 const Membershipform = () => {
   const navigate = useNavigate();
   const currentDate = new Date().toLocaleDateString();
   const currentYear = new Date().getFullYear();
-  const [checkedItems, setCheckedItems] = useState({});
-  const [files, setFiles] = useState({});
   const [image, setImage] = useState(null);
   const [isMember, setIsMember] = useState(false);
   const [isYesChecked, setIsYesChecked] = useState(false);
@@ -222,7 +219,7 @@ const Membershipform = () => {
       e.preventDefault();
 
       const response = await axios.post(
-        "http://192.168.169.77:8000/membershipform/",
+        "http://192.168.12.72:8000/membershipform/",
         formData,
         {
           headers: {

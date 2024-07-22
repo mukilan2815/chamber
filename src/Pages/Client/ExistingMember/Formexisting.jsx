@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../../Assets/Formheader.png";
 import icci from "../../../Assets/Formheader.png";
@@ -83,6 +83,16 @@ const Formexisting = () => {
   });
 
   const [legalInfo, setLegalInfo] = "Your legal information here.";
+  useEffect(() => {
+    const storedData = localStorage.getItem("formData");
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      setFormData((prevState) => ({
+        ...prevState,
+        ...parsedData,
+      }));
+    }
+  }, []);
 
   const labels = [
     "Proprietary Firm",
@@ -94,7 +104,9 @@ const Formexisting = () => {
     "Society",
     "Associations",
   ];
-
+  useEffect(() => {
+    localStorage.setItem("formData", JSON.stringify(formData));
+  }, [formData]);
   const [documentOptions, setDocOpt] = useState([
     {
       name: "Income Tax PAN Number",
@@ -221,8 +233,8 @@ const Formexisting = () => {
     try {
       e.preventDefault();
 
-      const response = await axios.post(
-        "http://192.168.169.77:8000/membershipform/",
+      const response = await axios.put(
+        "http://192.168.12.72:8000/existinglogin/",
         formData,
         {
           headers: {
@@ -262,7 +274,7 @@ const Formexisting = () => {
               <input
                 type="text"
                 name="applicantName"
-                value={formData.applicantName}
+                value={formData.applicantName || ""}
                 onChange={handleInputChange}
                 className="border rounded px-2 flex-grow"
               />

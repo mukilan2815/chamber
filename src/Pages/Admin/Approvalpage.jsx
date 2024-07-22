@@ -14,7 +14,7 @@ const ApprovalPage = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://192.168.169.77:8000/approval/", {
+      const response = await axios.get("http://192.168.12.72:8000/approval/", {
         headers: {
           Authorization: `Token ${token}`,
         },
@@ -24,6 +24,8 @@ const ApprovalPage = () => {
       setPendingApplications(response.data.pending);
       setRejectedApplications(response.data.rejected);
       setApprovedApplications(response.data.approved);
+
+      console.log("Rejected Applications:", response.data.rejected); // Add this line to verify rejected applications
     } catch (error) {
       console.error("Error fetching data:", error);
       setError(error.message);
@@ -40,7 +42,7 @@ const ApprovalPage = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "http://192.168.169.77:8000/approval/",
+        "http://192.168.12.72:8000/approval/",
         { fid, status: "accepted" },
         {
           headers: {
@@ -60,7 +62,7 @@ const ApprovalPage = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "http://192.168.169.77:8000/approval/",
+        "http://192.168.12.72:8000/approval/",
         { fid, reason },
         {
           headers: {
