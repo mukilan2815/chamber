@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../../Assets/Formheader.png";
-import icci from "../../../Assets/Formheader.png";
 import axios from "axios";
 
 const Formexisting = () => {
@@ -234,7 +233,7 @@ const Formexisting = () => {
       e.preventDefault();
 
       const response = await axios.put(
-        "http://192.168.12.72:8000/existinglogin/",
+        "http://192.168.106.126:8000/existinglogin/",
         formData,
         {
           headers: {
@@ -309,7 +308,7 @@ const Formexisting = () => {
                       <span>{index + 1}</span>
                       <input
                         type="text"
-                        value={formData.profession[index]}
+                        value={formData.profession1[index]}
                         onChange={(e) =>
                           handleProfessionChange(index, e.target.value)
                         }
@@ -346,7 +345,7 @@ const Formexisting = () => {
               <input
                 type="number"
                 name="establishmentYear"
-                value={formData.establishmentYear}
+                value={formData.YearofEstablishment}
                 onChange={handleInputChange}
                 className="border px-2 flex-grow"
                 min={1900}
@@ -362,7 +361,7 @@ const Formexisting = () => {
                 </h6>
                 <textarea
                   name="businessActivity"
-                  value={formData.businessActivity}
+                  value={formData.Businessactivity}
                   onChange={handleInputChange}
                   className="border border-black flex-grow h-20"
                 ></textarea>
@@ -373,7 +372,7 @@ const Formexisting = () => {
                 </h6>
                 <textarea
                   name="registeredOfficeAddress"
-                  value={formData.registeredOfficeAddress}
+                  value={formData.Registerofficeaddress}
                   onChange={handleInputChange}
                   className="border border-black flex-grow h-20"
                 ></textarea>
@@ -384,7 +383,7 @@ const Formexisting = () => {
                 </h6>
                 <textarea
                   name="officeAddress"
-                  value={formData.officeAddress}
+                  value={formData.Addressforcommunication_office}
                   onChange={handleInputChange}
                   className="border border-black flex-grow h-20"
                 ></textarea>
@@ -395,7 +394,7 @@ const Formexisting = () => {
                 </h6>
                 <textarea
                   name="worksFactoryAddress"
-                  value={formData.worksFactoryAddress}
+                  value={formData.Addressforcommunication_work}
                   onChange={handleInputChange}
                   className="border border-black flex-grow h-20"
                 ></textarea>
@@ -412,7 +411,7 @@ const Formexisting = () => {
                   <input
                     type="text"
                     name="phoneLandline"
-                    value={formData.phoneLandline}
+                    value={formData.Communicationdetails_landline}
                     onChange={handleInputChange}
                     className="border border-black flex-grow"
                   />
@@ -422,7 +421,7 @@ const Formexisting = () => {
                   <input
                     type="text"
                     name="phoneMobile"
-                    value={formData.phoneMobile}
+                    value={formData.Communicationdetails_mobile}
                     onChange={handleInputChange}
                     className="border border-black flex-grow"
                   />
@@ -432,7 +431,7 @@ const Formexisting = () => {
                   <input
                     type="email"
                     name="email"
-                    value={formData.email}
+                    value={formData.Communicationdetails_email}
                     onChange={handleInputChange}
                     className="border border-black flex-grow"
                   />
@@ -442,7 +441,7 @@ const Formexisting = () => {
                   <input
                     type="text"
                     name="website"
-                    value={formData.website}
+                    value={formData.Communicationdetails_web}
                     onChange={handleInputChange}
                     className="border border-black flex-grow"
                   />
@@ -459,7 +458,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="aadhaarCardNo"
-                  value={legalInfo.aadhaarCardNo}
+                  value={legalInfo.Legalinfo_aadhar}
                   onChange={handleLegalInfoChange}
                   className="w-full border rounded px-2 py-1"
                 />
@@ -469,7 +468,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="panCardNo"
-                  value={legalInfo.panCardNo}
+                  value={legalInfo.Legalinfo_pancard}
                   onChange={handleLegalInfoChange}
                   className="w-full border rounded px-2 py-1"
                 />
@@ -479,7 +478,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="gstNo"
-                  value={legalInfo.gstNo}
+                  value={legalInfo.Legalinfo_GSTNo}
                   onChange={handleLegalInfoChange}
                   className="w-full border rounded px-2 py-1"
                 />
@@ -491,7 +490,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="companyRegistrationNo"
-                  value={legalInfo.companyRegistrationNo}
+                  value={legalInfo.Legalinfo_CompanyFirmRegNo}
                   onChange={handleLegalInfoChange}
                   className="w-full border rounded px-2 py-1"
                 />
@@ -503,7 +502,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="societyRegistrationNo"
-                  value={legalInfo.societyRegistrationNo}
+                  value={legalInfo.Legalinfo_SocietyAssociationRegNo}
                   onChange={handleLegalInfoChange}
                   className="w-full border rounded px-2 py-1"
                 />
@@ -575,7 +574,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="name"
-                  value={formData.name}
+                  value={formData.Personauthorized_Name}
                   onChange={handleInputChange}
                   className="border-b outline-none border-black  w-64"
                 />
@@ -585,7 +584,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="designation"
-                  value={formData.designation}
+                  value={formData.Personauthorized_Designation}
                   onChange={handleInputChange}
                   className="border-b outline-none border-black  w-64"
                 />
@@ -595,7 +594,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="pan"
-                  value={formData.pan}
+                  value={formData.personauthorized_pan}
                   onChange={handleInputChange}
                   className="border-b outline-none border-black  w-64"
                 />
@@ -605,7 +604,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="aadhaar"
-                  value={formData.aadhaar}
+                  value={formData.personauthorized_aadhar}
                   onChange={handleInputChange}
                   className="border-b outline-none border-black  w-64"
                 />
@@ -615,7 +614,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="phone"
-                  value={formData.phone}
+                  value={formData.personauthorized_phone}
                   onChange={handleInputChange}
                   className="border-b outline-none border-black  w-64"
                 />
@@ -625,7 +624,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="mailId"
-                  value={formData.mailId}
+                  value={formData.personauthorized_email}
                   onChange={handleInputChange}
                   className="border-b outline-none border-black  w-64"
                 />
@@ -643,7 +642,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="mainCategory"
-                  value={formData.mainCategory}
+                  value={formData.Maincategory}
                   onChange={handleInputChange}
                   className="px-2 border-b outline-none border-black w-64"
                 />
@@ -653,7 +652,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="subCategory"
-                  value={formData.subCategory}
+                  value={formData.Subcategory}
                   onChange={handleInputChange}
                   className="px-2 border-b outline-none border-black w-64"
                 />
@@ -671,7 +670,7 @@ const Formexisting = () => {
                 <input
                   type="checkbox"
                   name="domestic"
-                  checked={formData.domestic}
+                  checked={formData.Cateringtomarket}
                   onChange={handleInputChange}
                   className="px-2 border-b border-black w-64"
                 />
@@ -681,7 +680,7 @@ const Formexisting = () => {
                 <input
                   type="checkbox"
                   name="global"
-                  checked={formData.global}
+                  checked={formData.Percentageofimports}
                   onChange={handleInputChange}
                   className="px-2 border-b border-black w-64"
                 />
@@ -702,7 +701,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="percentExports"
-                  value={formData.percentExports}
+                  value={formData.Percentageofexports}
                   onChange={handleInputChange}
                   className="px-2 border-b border-black w-64"
                 />
@@ -728,7 +727,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="countryName"
-                  value={formData.countryName}
+                  value={formData.Foreigncollaboration_country}
                   onChange={handleInputChange}
                   className="px-2 border-b border-black w-64"
                 />
@@ -740,7 +739,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="collaboratorName"
-                  value={formData.collaboratorName}
+                  value={formData.Foreigncollaboration_collaborator}
                   onChange={handleInputChange}
                   className="px-2 border-b border-black w-64"
                 />
@@ -756,7 +755,7 @@ const Formexisting = () => {
                 <input
                   type="checkbox"
                   name="large"
-                  checked={formData.large}
+                  checked={formData.Classificationofindustry}
                   onChange={handleInputChange}
                   className="ml-2"
                 />
@@ -803,6 +802,7 @@ const Formexisting = () => {
                 <h6>1st Year</h6>
                 <input
                   type="text"
+                  value={formData.Annualturnover_year1}
                   className="border-b-4 outline-none border-blue-700 border-dotted "
                 />
               </div>
@@ -833,6 +833,7 @@ const Formexisting = () => {
                   <h6 className="w-32 text-right pr-2">Direct - Office:</h6>
                   <input
                     type="text"
+                    value={formData.Noofpersonsemployed_direct}
                     className="border-black outline-none rounded px-2 border w-40"
                   />
                 </div>
@@ -840,6 +841,7 @@ const Formexisting = () => {
                   <h6 className="w-32 text-right pr-2">Works:</h6>
                   <input
                     type="text"
+                    value={formData.Noofpersonsemployed_works}
                     className="border-black outline-none rounded px-2 border w-40"
                   />
                 </div>
@@ -849,6 +851,7 @@ const Formexisting = () => {
                   </h6>
                   <input
                     type="text"
+                    value={formData.Noofpersonsemployed_indirect}
                     className="border-black outline-none rounded px-2 border w-40"
                   />
                 </div>
@@ -856,6 +859,7 @@ const Formexisting = () => {
                   <h6 className="w-32 text-right pr-2">Outsourced:</h6>
                   <input
                     type="text"
+                    value={formData.Noofpersonsemployed_outsourced}
                     className="border-black outline-none rounded px-2 border w-40"
                   />
                 </div>
@@ -869,6 +873,7 @@ const Formexisting = () => {
                   <h6 className="w-32 text-right pr-2">ESIC:</h6>
                   <input
                     type="text"
+                    value={formData.ESIC}
                     className="border-black outline-none rounded px-2 border w-40"
                   />
                 </div>
@@ -876,6 +881,7 @@ const Formexisting = () => {
                   <h6 className="w-32 text-right pr-2">EPF:</h6>
                   <input
                     type="text"
+                    value={formData.EPF}
                     className="border-black outline-none rounded px-2 border w-40"
                   />
                 </div>
@@ -886,7 +892,10 @@ const Formexisting = () => {
               <h6 className="w-64 text-right pr-4">
                 18. Details of branches / Outlet outside India:
               </h6>
-              <textarea className="border border-black w-64 h-20"></textarea>
+              <textarea
+                value={formData.Detailsofbranches}
+                className="border border-black w-64 h-20"
+              ></textarea>
             </div>
 
             <div className="flex-col items-center justify-center">
@@ -898,6 +907,7 @@ const Formexisting = () => {
                   <input
                     type="checkbox"
                     className="mr-2"
+                    value={formData.Memberofanyother}
                     id="YES"
                     checked={isMember}
                     onChange={handleCheckboxChange}
@@ -938,6 +948,7 @@ const Formexisting = () => {
                   <div className="flex items-center">
                     <input
                       type="checkbox"
+                      value={formData.is_office_bearer}
                       className="mr-2"
                       checked={isYesChecked}
                       onChange={handleYesChange}
@@ -972,6 +983,7 @@ const Formexisting = () => {
             <textarea
               name=""
               id=""
+              value={formData.reason_for_joining_chamber}
               className="border-black border ml-4"
             ></textarea>
           </div>

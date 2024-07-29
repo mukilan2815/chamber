@@ -219,7 +219,7 @@ const Membershipform = () => {
       e.preventDefault();
 
       const response = await axios.post(
-        "http://192.168.12.72:8000/membershipform/",
+        "http://192.168.106.126:8000/membershipform/",
         formData,
         {
           headers: {
