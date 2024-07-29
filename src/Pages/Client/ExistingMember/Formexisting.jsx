@@ -233,7 +233,7 @@ const Formexisting = () => {
       e.preventDefault();
 
       const response = await axios.put(
-        "http://192.168.106.126:8000/existinglogin/",
+        "http://192.168.188.144:8000/existinglogin/",
         formData,
         {
           headers: {
@@ -273,7 +273,7 @@ const Formexisting = () => {
               <input
                 type="text"
                 name="applicantName"
-                value={formData.applicantName || ""}
+                value={formData.NameofApplicant || ""}
                 onChange={handleInputChange}
                 className="border rounded px-2 flex-grow"
               />
@@ -458,7 +458,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="aadhaarCardNo"
-                  value={legalInfo.Legalinfo_aadhar}
+                  value={formData.Legalinfo_aadhar}
                   onChange={handleLegalInfoChange}
                   className="w-full border rounded px-2 py-1"
                 />
@@ -468,7 +468,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="panCardNo"
-                  value={legalInfo.Legalinfo_pancard}
+                  value={formData.Legalinfo_pancard}
                   onChange={handleLegalInfoChange}
                   className="w-full border rounded px-2 py-1"
                 />
@@ -478,7 +478,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="gstNo"
-                  value={legalInfo.Legalinfo_GSTNo}
+                  value={formData.Legalinfo_GSTNo}
                   onChange={handleLegalInfoChange}
                   className="w-full border rounded px-2 py-1"
                 />
@@ -490,7 +490,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="companyRegistrationNo"
-                  value={legalInfo.Legalinfo_CompanyFirmRegNo}
+                  value={formData.Legalinfo_CompanyFirmRegNo}
                   onChange={handleLegalInfoChange}
                   className="w-full border rounded px-2 py-1"
                 />
@@ -502,7 +502,7 @@ const Formexisting = () => {
                 <input
                   type="text"
                   name="societyRegistrationNo"
-                  value={legalInfo.Legalinfo_SocietyAssociationRegNo}
+                  value={formData.Legalinfo_SocietyAssociationRegNo}
                   onChange={handleLegalInfoChange}
                   className="w-full border rounded px-2 py-1"
                 />
@@ -810,6 +810,7 @@ const Formexisting = () => {
                 <h6>2nd Year</h6>
                 <input
                   type="text"
+                  value={formData.Annualturnover_year2}
                   className="border-b-4 outline-none border-blue-700 border-dotted "
                 />
               </div>
@@ -817,6 +818,7 @@ const Formexisting = () => {
                 <h6>3rd Year</h6>
                 <input
                   type="text"
+                  value={formData.Annualturnover_year3}
                   className="border-b-4 outline-none border-blue-700 border-dotted "
                 />
               </div>

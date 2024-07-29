@@ -11,7 +11,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://192.168.106.126:8000/existinglogin/",
+        "http://192.168.188.144:8000/existinglogin/",
         {
           email,
           aadhar,
